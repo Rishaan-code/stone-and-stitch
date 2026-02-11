@@ -49,7 +49,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#shop">Shop</a>
-            <button id="scrollBtn" class="btn btn-ghost">See best sellers</button>
+            <button id="scrollBtn" class="btn btn-ghost" type="button">See best sellers</button>
           </div>
           <div class="badges">
             <span class="badge">Free returns</span>
@@ -68,7 +68,7 @@
             <div class="price" id="heroPrice">$—</div>
           </div>
           <div class="hero-card-row">
-            <button id="heroQuickView" class="btn w-full">Quick view</button>
+            <button id="heroQuickView" class="btn w-full" type="button">Quick view</button>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@
   <aside id="cartDrawer" class="drawer hidden" aria-hidden="true">
     <div class="drawer-head">
       <h3>Your Cart</h3>
-      <button id="closeCart" class="icon-btn" aria-label="Close cart">✕</button>
+      <button id="closeCart" class="icon-btn" aria-label="Close cart" type="button">✕</button>
     </div>
     <div id="cartItems" class="drawer-body"></div>
     <div class="drawer-foot">
@@ -145,20 +145,20 @@
         <span class="muted">Subtotal</span>
         <strong id="cartSubtotal">$0</strong>
       </div>
-      <button id="checkoutBtn" class="btn btn-primary w-full">Checkout</button>
+      <button id="checkoutBtn" class="btn btn-primary w-full" type="button">Checkout</button>
       <div class="fine muted">Demo checkout modal (no payment yet).</div>
     </div>
   </aside>
 
   <!-- Quick View Modal -->
   <section id="modal" class="modal hidden" aria-hidden="true">
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true">
       <div class="modal-top">
         <div class="modal-title">
           <h3 id="mTitle">—</h3>
           <div class="muted" id="mKicker">—</div>
         </div>
-        <button id="closeModal" class="icon-btn" aria-label="Close">✕</button>
+        <button id="closeModal" class="icon-btn" aria-label="Close" type="button">✕</button>
       </div>
 
       <div class="modal-grid">
@@ -171,15 +171,15 @@
           <p class="muted" id="mNote">—</p>
 
           <div class="sizes">
-            <button class="size is-active">S</button>
-            <button class="size">M</button>
-            <button class="size">L</button>
-            <button class="size">XL</button>
+            <button class="size is-active" type="button">S</button>
+            <button class="size" type="button">M</button>
+            <button class="size" type="button">L</button>
+            <button class="size" type="button">XL</button>
           </div>
 
           <div class="modal-actions">
-            <button id="mAdd" class="btn btn-primary w-full">Add to cart</button>
-            <button id="mWish" class="btn w-full">♡ Save</button>
+            <button id="mAdd" class="btn btn-primary w-full" type="button">Add to cart</button>
+            <button id="mWish" class="btn w-full" type="button">♡ Save</button>
           </div>
 
           <div class="fine muted">
@@ -192,13 +192,13 @@
 
   <!-- Checkout Modal -->
   <section id="checkout" class="modal hidden" aria-hidden="true">
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true">
       <div class="modal-top">
         <div class="modal-title">
           <h3>Checkout</h3>
           <div class="muted">Demo form (no payment processing yet)</div>
         </div>
-        <button id="closeCheckout" class="icon-btn" aria-label="Close">✕</button>
+        <button id="closeCheckout" class="icon-btn" aria-label="Close" type="button">✕</button>
       </div>
 
       <form id="checkoutForm" class="checkout-form">
