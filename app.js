@@ -2,14 +2,76 @@
 // Images are free Unsplash links; swap later.
 
 const IMG = {
-  denimA: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1600&q=80",
-  denimB: "https://images.unsplash.com/photo-1534026609802-f7239f184d91?auto=format&fit=crop&w=1600&q=80",
-  hoodieA:"https://images.unsplash.com/photo-1520975958225-2b89d83cfe19?auto=format&fit=crop&w=1600&q=80",
-  hoodieB:"https://images.unsplash.com/photo-1520975916798-6b7c1b0b6a3d?auto=format&fit=crop&w=1600&q=80",
-  teeA:  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
-  pantsA:"https://images.unsplash.com/photo-1522897355400-c4fdec73d979?auto=format&fit=crop&w=1600&q=80",
-  shortsA:"https://images.unsplash.com/photo-1559234626-0ebf4754d937?auto=format&fit=crop&w=1600&q=80",
+  // Denim
+  denim1: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1600&q=80",
+  denim2: "https://images.unsplash.com/photo-1534026609802-f7239f184d91?auto=format&fit=crop&w=1600&q=80",
+  denim3: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&q=80",
+  denim4: "https://images.unsplash.com/photo-1542060748-10c28b62716f?auto=format&fit=crop&w=1600&q=80",
+
+  // Hoodies / outer
+  hood1: "https://images.unsplash.com/photo-1520975958225-2b89d83cfe19?auto=format&fit=crop&w=1600&q=80",
+  hood2: "https://images.unsplash.com/photo-1520975916798-6b7c1b0b6a3d?auto=format&fit=crop&w=1600&q=80",
+  hood3: "https://images.unsplash.com/photo-1520975867597-0b273c0aa0f3?auto=format&fit=crop&w=1600&q=80",
+  jacket1:"https://images.unsplash.com/photo-1520975693411-16a7a3c7d2f3?auto=format&fit=crop&w=1600&q=80",
+
+  // Shirts
+  tee1:  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
+  tee2:  "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=80",
+  tee3:  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1600&q=80",
+  shirt1:"https://images.unsplash.com/photo-1520975681070-7c1e6d2dfd8f?auto=format&fit=crop&w=1600&q=80",
+
+  // Pants
+  pant1: "https://images.unsplash.com/photo-1522897355400-c4fdec73d979?auto=format&fit=crop&w=1600&q=80",
+  pant2: "https://images.unsplash.com/photo-1520975721395-3b0c4b2d4f0b?auto=format&fit=crop&w=1600&q=80",
+  pant3: "https://images.unsplash.com/photo-1520975750291-6d7c9e86f3d8?auto=format&fit=crop&w=1600&q=80",
+
+  // Shorts
+  short1:"https://images.unsplash.com/photo-1559234626-0ebf4754d937?auto=format&fit=crop&w=1600&q=80",
+  short2:"https://images.unsplash.com/photo-1559234626-1304f83caed6?auto=format&fit=crop&w=1600&q=80",
+  short3:"https://images.unsplash.com/photo-1520975741502-4a9a4f2c3a65?auto=format&fit=crop&w=1600&q=80",
+
+  // Accessories
+  hat1:  "https://images.unsplash.com/photo-1520975698728-8dfd2ed5b6af?auto=format&fit=crop&w=1600&q=80",
+  hat2:  "https://images.unsplash.com/photo-1520975648212-9fe2ad653d77?auto=format&fit=crop&w=1600&q=80",
+  belt1: "https://images.unsplash.com/photo-1590739225287-bd31519780db?auto=format&fit=crop&w=1600&q=80",
+  bag1:  "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1600&q=80",
 };
+
+const PRODUCTS = [
+  // JEANS
+  {id:"nt-jean-1", name:"STAINED GLASS WAXED DENIM", category:"Jeans", price:124, inStock:true,  colors:["Black Wax","Indigo"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim2, tags:["denim","waxed","stack"]},
+  {id:"nt-jean-2", name:"STRAIGHT DENIM",            category:"Jeans", price:94,  inStock:true,  colors:["Vintage Blue","Washed Black"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim1, tags:["denim","straight"]},
+  {id:"nt-jean-3", name:"RIPPED SLIM DENIM",         category:"Jeans", price:108, inStock:true,  colors:["Washed Black"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim3, tags:["denim","ripped"]},
+  {id:"nt-jean-4", name:"STONE WASH DENIM",          category:"Jeans", price:98,  inStock:false, colors:["Grey Wash"], sizes:["28","30","32","34","36"], ship:"Restock soon", img:IMG.denim4, tags:["denim","wash"]},
+
+  // HOODIES
+  {id:"nt-hood-1", name:"BRIGHT STAR ZIPUP BLACK",   category:"Hoodies", price:84, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood1, tags:["hoodie","zip"]},
+  {id:"nt-hood-2", name:"PURE WHITE STAR ZIPUP",     category:"Hoodies", price:84, inStock:true,  colors:["White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood2, tags:["hoodie","zip"]},
+  {id:"nt-hood-3", name:"RETURN TO FOREVER HOODIE",  category:"Hoodies", price:76, inStock:false, colors:["Black"], sizes:["S","M","L","XL"], ship:"Restock soon", img:IMG.hood3, tags:["hoodie"]},
+
+  // SHIRTS
+  {id:"nt-shirt-1", name:"HEAVY TEE",                category:"Shirts", price:34, inStock:true,  colors:["White","Off-White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee1, tags:["tee","heavy"]},
+  {id:"nt-shirt-2", name:"CORE TEE BLACK",           category:"Shirts", price:34, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee2, tags:["tee","black"]},
+  {id:"nt-shirt-3", name:"GRAPHIC TEE",              category:"Shirts", price:42, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee3, tags:["tee","graphic"]},
+  {id:"nt-shirt-4", name:"OVERSHIRT",                category:"Shirts", price:68, inStock:true,  colors:["Charcoal"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.shirt1, tags:["shirt","overshirt"]},
+
+  // PANTS
+  {id:"nt-pant-1", name:"TECH CARGO",                category:"Pants", price:98, inStock:true,  colors:["Black","Olive"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant1, tags:["cargo","tech"]},
+  {id:"nt-pant-2", name:"MUSIC SWEATPANTS",          category:"Pants", price:94, inStock:true,  colors:["Black","Ash"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant2, tags:["sweatpants"]},
+  {id:"nt-pant-3", name:"WIDE LEG TROUSER",          category:"Pants", price:112,inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant3, tags:["trouser","wide"]},
+
+  // SHORTS
+  {id:"nt-short-1", name:"NYLON TRAIL SHORT",        category:"Shorts", price:48, inStock:true,  colors:["Black","Stone"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short1, tags:["shorts","nylon"]},
+  {id:"nt-short-2", name:"COTTON EVERYDAY SHORT",    category:"Shorts", price:42, inStock:true,  colors:["Heather","Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short2, tags:["shorts","cotton"]},
+  {id:"nt-short-3", name:"MESH GYM SHORT",           category:"Shorts", price:38, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short3, tags:["shorts","mesh"]},
+
+  // ACCESSORIES (for testing)
+  {id:"nt-acc-1", name:"FOREVER FITTED HAT",         category:"Accessories", price:42, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.hat1, tags:["hat","cap"]},
+  {id:"nt-acc-2", name:"LOGO BEANIE",                category:"Accessories", price:28, inStock:true,  colors:["Black","Grey"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.hat2, tags:["beanie"]},
+  {id:"nt-acc-3", name:"SERPENT BELT",               category:"Accessories", price:68, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.belt1, tags:["belt"]},
+  {id:"nt-acc-4", name:"MINI CROSSBODY BAG",         category:"Accessories", price:58, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.bag1, tags:["bag"]},
+];
+
 
 const PRODUCTS = [
   {id:"nt-denim-1", name:"WAXED STACK DENIM", category:"Jeans", price:124, inStock:true,  colors:["Black Wax","Indigo"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denimB, tags:["denim","stack","waxed"]},
@@ -577,4 +639,5 @@ checkoutBtn.addEventListener("click",()=>{
   if(cart.length===0){ toastMsg("Cart is empty"); return; }
   toastMsg("Checkout hook ready (integrate your API here)");
 });
+
 
