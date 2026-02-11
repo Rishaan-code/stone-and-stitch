@@ -2,232 +2,118 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Stone & Stitch — Apparel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stone & Stitch</title>
+  <meta name="description" content="Stone & Stitch — premium essentials. Demo storefront." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <div class="bg-noise"></div>
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="wrap topbar-row">
+      <span class="topbar-pill">FREE US SHIPPING ON ORDERS $100+</span>
+      <button class="topbar-link" id="openSearch" type="button">Search</button>
+    </div>
+  </div>
 
+  <!-- Header -->
   <header class="header">
     <div class="wrap header-row">
-      <a class="brand" href="#">
-        <span class="brand-mark"></span>
-        <span>Stone &amp; Stitch</span>
+      <a class="brand" href="#/">
+        <span class="brand-dot"></span>
+        <span class="brand-text">Stone &amp; Stitch</span>
       </a>
 
-      <nav class="nav" aria-label="Product categories">
-        <button class="pill is-active" data-filter="all">All</button>
-        <button class="pill" data-filter="Jeans">Jeans</button>
-        <button class="pill" data-filter="Shirts">Shirts</button>
-        <button class="pill" data-filter="Pants">Pants</button>
-        <button class="pill" data-filter="Hoodies">Hoodies</button>
-        <button class="pill" data-filter="Shorts">Shorts</button>
+      <nav class="nav" aria-label="Primary">
+        <a class="navlink" href="#/">HOME</a>
+        <a class="navlink" href="#/shop">SHOP</a>
+        <a class="navlink" href="#/contact">CONTACT</a>
       </nav>
 
-      <div class="header-actions">
-        <button id="wishlistBtn" class="btn btn-ghost" title="Wishlist">
-          ♥ <span id="wishCount" class="count">0</span>
+      <div class="actions">
+        <button class="iconbtn" id="favoritesBtn" type="button" aria-label="Favorites">
+          <span class="icon">♥</span>
+          <span class="badge" id="favCount">0</span>
         </button>
-        <button id="cartBtn" class="btn">
-          Cart <span id="cartCount" class="count">0</span>
+
+        <button class="iconbtn" id="cartBtn" type="button" aria-label="Cart">
+          <span class="icon">🛒</span>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+
+        <button class="iconbtn mobile-only" id="mobileMenuBtn" type="button" aria-label="Menu">
+          <span class="icon">☰</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div class="hero-left reveal">
-          <div class="chip">New Drop • Winter Core</div>
-          <h1>Minimal essentials, built to flex.</h1>
-          <p>
-            Denim that holds shape, hoodies that stay soft, and basics you can wear anywhere.
-            Tap any item for a quick view.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#shop">Shop</a>
-            <button id="scrollBtn" class="btn btn-ghost" type="button">See best sellers</button>
-          </div>
-          <div class="badges">
-            <span class="badge">Free returns</span>
-            <span class="badge">Ships in 1–2 days</span>
-            <span class="badge">Secure checkout (demo)</span>
-          </div>
-        </div>
-
-        <div class="hero-card reveal">
-          <div class="hero-img" id="heroImg"></div>
-          <div class="hero-card-row">
-            <div>
-              <div class="muted">Featured</div>
-              <div class="featured-title" id="heroTitle">—</div>
-            </div>
-            <div class="price" id="heroPrice">$—</div>
-          </div>
-          <div class="hero-card-row">
-            <button id="heroQuickView" class="btn w-full" type="button">Quick view</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="shop" class="section">
-      <div class="wrap section-head">
-        <h2 class="reveal">Shop</h2>
-        <div class="search reveal">
-          <input id="searchInput" type="search" placeholder="Search products…" />
-          <select id="sortSelect">
-            <option value="featured">Sort: Featured</option>
-            <option value="low">Price: Low → High</option>
-            <option value="high">Price: High → Low</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="wrap grid" id="productGrid" aria-live="polite"></div>
-    </section>
-
-    <section id="about" class="section alt">
-      <div class="wrap about">
-        <div class="reveal">
-          <h2>About Stone &amp; Stitch</h2>
-          <p>
-            A clean demo storefront with real UI patterns: quick view, wishlist, cart drawer,
-            and checkout modal. You can later swap the “Checkout” into Stripe or Shopify.
-          </p>
-          <ul class="list">
-            <li>Smooth transitions + hover effects</li>
-            <li>Scroll-in reveal animations</li>
-            <li>LocalStorage cart/wishlist persistence</li>
-          </ul>
-        </div>
-
-        <div class="about-card reveal">
-          <div class="about-stat">
-            <div class="stat" id="statProducts">—</div>
-            <div class="muted">Products</div>
-          </div>
-          <div class="about-stat">
-            <div class="stat">5</div>
-            <div class="muted">Categories</div>
-          </div>
-          <div class="about-stat">
-            <div class="stat">Fast</div>
-            <div class="muted">Static deploy</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="wrap footer-row">
-        <div class="muted">© <span id="year"></span> Stone &amp; Stitch</div>
-        <div class="muted">Demo storefront • Not a real checkout</div>
-      </div>
-    </footer>
-  </main>
-
-  <!-- Overlay -->
-  <div id="overlay" class="overlay hidden"></div>
-
-  <!-- Cart Drawer -->
-  <aside id="cartDrawer" class="drawer hidden" aria-hidden="true">
+  <!-- Mobile nav drawer -->
+  <aside id="mobileNav" class="drawer hidden" aria-hidden="true">
     <div class="drawer-head">
-      <h3>Your Cart</h3>
-      <button id="closeCart" class="icon-btn" aria-label="Close cart" type="button">✕</button>
+      <div class="drawer-title">Menu</div>
+      <button class="iconbtn" id="closeMobileNav" type="button" aria-label="Close">✕</button>
     </div>
-    <div id="cartItems" class="drawer-body"></div>
-    <div class="drawer-foot">
-      <div class="row">
-        <span class="muted">Subtotal</span>
-        <strong id="cartSubtotal">$0</strong>
-      </div>
-      <button id="checkoutBtn" class="btn btn-primary w-full" type="button">Checkout</button>
-      <div class="fine muted">Demo checkout modal (no payment yet).</div>
+    <div class="drawer-body">
+      <a class="drawer-link" href="#/" id="mHome">HOME</a>
+      <a class="drawer-link" href="#/shop" id="mShop">SHOP</a>
+      <a class="drawer-link" href="#/favorites" id="mFav">FAVORITES</a>
+      <a class="drawer-link" href="#/contact" id="mContact">CONTACT</a>
     </div>
   </aside>
 
-  <!-- Quick View Modal -->
-  <section id="modal" class="modal hidden" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true">
-      <div class="modal-top">
-        <div class="modal-title">
-          <h3 id="mTitle">—</h3>
-          <div class="muted" id="mKicker">—</div>
-        </div>
-        <button id="closeModal" class="icon-btn" aria-label="Close" type="button">✕</button>
+  <!-- Overlay -->
+  <div id="overlay" class="overlay hidden" tabindex="-1" aria-hidden="true"></div>
+
+  <!-- Main app mount -->
+  <main id="app" class="app" aria-live="polite"></main>
+
+  <!-- Cart drawer -->
+  <aside id="cartDrawer" class="drawer cart hidden" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="drawer-title">Your cart</div>
+      <button class="iconbtn" id="closeCart" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="drawer-foot">
+      <div class="row">
+        <span class="muted">Subtotal</span>
+        <strong id="cartSubtotal">$0.00</strong>
+      </div>
+      <div class="row">
+        <span class="muted">Estimated shipping</span>
+        <span id="shipEstimate">$0.00</span>
+      </div>
+      <div class="row total">
+        <span>Total</span>
+        <strong id="cartTotal">$0.00</strong>
       </div>
 
-      <div class="modal-grid">
-        <div class="modal-img-wrap">
-          <img id="mImg" alt="" loading="lazy" />
-        </div>
-
-        <div class="modal-info">
-          <div class="price big" id="mPrice">$—</div>
-          <p class="muted" id="mNote">—</p>
-
-          <div class="sizes">
-            <button class="size is-active" type="button">S</button>
-            <button class="size" type="button">M</button>
-            <button class="size" type="button">L</button>
-            <button class="size" type="button">XL</button>
-          </div>
-
-          <div class="modal-actions">
-            <button id="mAdd" class="btn btn-primary w-full" type="button">Add to cart</button>
-            <button id="mWish" class="btn w-full" type="button">♡ Save</button>
-          </div>
-
-          <div class="fine muted">
-            Shipping: 1–2 days • Free returns • Quality guaranteed (demo)
-          </div>
-        </div>
+      <button class="btn primary" id="checkoutBtn" type="button">Checkout</button>
+      <div class="fine muted">
+        Demo storefront: checkout is a real flow but payment is not processed.
       </div>
     </div>
-  </section>
+  </aside>
 
-  <!-- Checkout Modal -->
-  <section id="checkout" class="modal hidden" aria-hidden="true">
+  <!-- Search modal -->
+  <section id="searchModal" class="modal hidden" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true">
-      <div class="modal-top">
-        <div class="modal-title">
-          <h3>Checkout</h3>
-          <div class="muted">Demo form (no payment processing yet)</div>
-        </div>
-        <button id="closeCheckout" class="icon-btn" aria-label="Close" type="button">✕</button>
+      <div class="modal-head">
+        <div class="modal-title">Search</div>
+        <button class="iconbtn" id="closeSearch" type="button" aria-label="Close">✕</button>
       </div>
-
-      <form id="checkoutForm" class="checkout-form">
-        <label>
-          Full name
-          <input required name="name" placeholder="Your name" />
-        </label>
-        <label>
-          Email
-          <input required type="email" name="email" placeholder="you@email.com" />
-        </label>
-        <label>
-          Address
-          <input required name="address" placeholder="Street, city, zip" />
-        </label>
-
-        <div class="row">
-          <div class="muted">Total</div>
-          <strong id="checkoutTotal">$0</strong>
-        </div>
-
-        <button class="btn btn-primary w-full" type="submit">Place order</button>
-        <div class="fine muted">This just shows a success message.</div>
-      </form>
+      <div class="modal-body">
+        <input id="searchInputGlobal" class="input" type="search" placeholder="Search products…" />
+        <div class="fine muted">Tip: try “denim”, “zip”, “tee”.</div>
+        <div id="searchResults" class="search-results"></div>
+      </div>
     </div>
   </section>
 
   <!-- Toast -->
-  <div id="toast" class="toast hidden"></div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
   <script src="app.js"></script>
 </body>
