@@ -154,12 +154,15 @@ a{color:inherit;text-decoration:none}
 }
 
 .card{
-  /* remove card chrome */
   border:none;
   background:transparent;
   border-radius:0;
   overflow:visible;
+
+  display:flex;            /* IMPORTANT: stack image then text */
+  flex-direction:column;
 }
+
 
 .cardbody{
   padding:12px 0 0;
@@ -169,17 +172,21 @@ a{color:inherit;text-decoration:none}
 
 .media{
   width:100%;
-  aspect-ratio: 1 / 1;      /* ✅ square like reference */
+  aspect-ratio: 1 / 1;     /* square like reference */
   background:#0b0b0b;
   overflow:hidden;
-  border-radius:0;          /* ✅ flat corners */
+  border-radius:0;
   position:relative;
+
+  display:block;           /* IMPORTANT: anchor must be block */
 }
 .media img{
-  width:100%;height:100%;
+  width:100%;
+  height:100%;
   object-fit:cover;
   display:block;
 }
+
 
 .sold{
   position:absolute;
@@ -193,8 +200,10 @@ a{color:inherit;text-decoration:none}
 }
 
 .cardbody{
-  padding:12px 0 0;         /* ✅ text below image */
+  padding:12px 0 0;
+  min-height: 86px;        /* prevents the next row from visually “covering” text */
 }
+
 .pname{
   margin:0;
   font-weight:900;
@@ -309,6 +318,7 @@ a{color:inherit;text-decoration:none}
   .grid{grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px;}
   .cardbtns{opacity:1; transform:none;} /* show actions on mobile */
 }
+
 
 
 
