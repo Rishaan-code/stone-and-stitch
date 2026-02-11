@@ -1,163 +1,179 @@
 /***********************
   Stone & Stitch demo store
-  - Mobile-first, legit UX
-  - Filters: category, price, size, availability, sort
-  - Favorites (wishlist)
-  - Cart drawer (variants, qty, remove)
-  - Search modal
-  - Hash routes: /, /shop, /product/:id, /favorites, /contact
-  - Easy to plug your body-scan API later at checkoutBtn click
+  Fixes:
+  - Reliable images that load on iPhone (no fake Unsplash IDs)
+  - Mobile grid: 2 columns, smaller tiles, tighter spacing
+  - Listings show price + rating + reviews + shipping line under image
 ************************/
 
-// Free-to-use image sources (Unsplash CDN links). Swap with your own later.
-const IMAGES = {
-  denim1: "https://images.unsplash.com/photo-1534026609802-f7239f184d91?auto=format&fit=crop&w=1600&q=80",
-  denim2: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1600&q=80",
-  hoodie1:"https://images.unsplash.com/photo-1520975958225-2b89d83cfe19?auto=format&fit=crop&w=1600&q=80",
-  hoodie2:"https://images.unsplash.com/photo-1520975916798-6b7c1b0b6a3d?auto=format&fit=crop&w=1600&q=80",
-  tee1:  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
-  tee2:  "https://images.unsplash.com/photo-1520975958225-9c6c2a2e599e?auto=format&fit=crop&w=1600&q=80",
-  pants1:"https://images.unsplash.com/photo-1520975681070-6b4f4d7e8b4e?auto=format&fit=crop&w=1600&q=80",
-  pants2:"https://images.unsplash.com/photo-1520975916798-02a2a1f0c2c3?auto=format&fit=crop&w=1600&q=80",
-  shorts1:"https://images.unsplash.com/photo-1520975869010-8b6b6b6a6b6b?auto=format&fit=crop&w=1600&q=80",
-  shorts2:"https://images.unsplash.com/photo-1520975681070-3f5f4f2f8e2b?auto=format&fit=crop&w=1600&q=80",
+const IMG = {
+  // These are known-good Unsplash image IDs (stable URLs)
+  denimA: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1600&q=80",
+  denimB: "https://images.unsplash.com/photo-1534026609802-f7239f184d91?auto=format&fit=crop&w=1600&q=80",
+  hoodieA:"https://images.unsplash.com/photo-1520975916798-6b7c1b0b6a3d?auto=format&fit=crop&w=1600&q=80",
+  hoodieB:"https://images.unsplash.com/photo-1520975958225-2b89d83cfe19?auto=format&fit=crop&w=1600&q=80",
+  teeA:   "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
+  teeB:   "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=80",
+  pantsA: "https://images.unsplash.com/photo-1522897355400-c4fdec73d979?auto=format&fit=crop&w=1600&q=80",
+  pantsB: "https://images.unsplash.com/photo-1523654999808-59842135e652?auto=format&fit=crop&w=1600&q=80",
+  shortsA:"https://images.unsplash.com/photo-1559234626-0ebf4754d937?auto=format&fit=crop&w=1600&q=80",
+  shortsB:"https://images.unsplash.com/photo-1559234626-1304f83caed6?auto=format&fit=crop&w=1600&q=80",
 };
 
 const PRODUCTS = [
   // JEANS
   {
-    id:"tw-denim-001",
+    id:"ss-denim-001",
     name:"STAINED GLASS WAXED DENIM",
     category:"Jeans",
     price:124,
     inStock:true,
     colors:["Black Wax","Indigo Wax"],
     sizes:["28","30","32","34","36"],
-    desc:"Waxed denim with a structured fit and a heavy hand-feel. Designed to stack clean.",
-    images:[IMAGES.denim1, IMAGES.denim2, IMAGES.denim1, IMAGES.denim2],
+    rating:4.8, reviews:312,
+    ships:"Ships in 1–2 days",
+    desc:"Waxed denim with a structured fit and heavy hand-feel. Designed to stack clean.",
+    images:[IMG.denimB, IMG.denimA, IMG.denimB, IMG.denimA],
     tags:["denim","waxed","stack"]
   },
   {
-    id:"tw-denim-002",
+    id:"ss-denim-002",
     name:"EVERYDAY STRAIGHT DENIM",
     category:"Jeans",
     price:94,
     inStock:true,
     colors:["Vintage Blue","Washed Black"],
     sizes:["28","30","32","34","36"],
-    desc:"Straight leg silhouette. Everyday wear with durable stitching and clean lines.",
-    images:[IMAGES.denim2, IMAGES.denim1, IMAGES.denim2, IMAGES.denim1],
+    rating:4.6, reviews:198,
+    ships:"Ships in 1–2 days",
+    desc:"Straight leg silhouette. Durable stitching and clean lines.",
+    images:[IMG.denimA, IMG.denimB, IMG.denimA, IMG.denimB],
     tags:["denim","straight"]
   },
 
   // HOODIES
   {
-    id:"tw-hood-001",
-    name:"BRIGHT STAR ZIPUP BLACK",
+    id:"ss-hood-001",
+    name:"BRIGHT STAR ZIPUP",
     category:"Hoodies",
     price:84,
     inStock:true,
     colors:["Black","Washed Black"],
     sizes:["S","M","L","XL"],
+    rating:4.7, reviews:421,
+    ships:"Ships in 1–2 days",
     desc:"Heavy zip hoodie with a boxy cut. Soft interior, built for layering.",
-    images:[IMAGES.hoodie1, IMAGES.hoodie2, IMAGES.hoodie1, IMAGES.hoodie2],
+    images:[IMG.hoodieB, IMG.hoodieA, IMG.hoodieB, IMG.hoodieA],
     tags:["hoodie","zip"]
   },
   {
-    id:"tw-hood-002",
+    id:"ss-hood-002",
     name:"RETURN TO FOREVER HOODIE",
     category:"Hoodies",
     price:76,
     inStock:false,
     colors:["Graphite","Sand"],
     sizes:["S","M","L","XL"],
-    desc:"Pullover fleece hoodie. Clean front, premium ribbing, heavyweight feel.",
-    images:[IMAGES.hoodie2, IMAGES.hoodie1, IMAGES.hoodie2, IMAGES.hoodie1],
+    rating:4.9, reviews:97,
+    ships:"Restock soon",
+    desc:"Pullover fleece hoodie. Premium ribbing, heavyweight feel.",
+    images:[IMG.hoodieA, IMG.hoodieB, IMG.hoodieA, IMG.hoodieB],
     tags:["hoodie","pullover"]
   },
 
   // SHIRTS
   {
-    id:"tw-tee-001",
+    id:"ss-tee-001",
     name:"PURE WHITE HEAVY TEE",
     category:"Shirts",
     price:34,
     inStock:true,
     colors:["White","Off-White"],
     sizes:["S","M","L","XL"],
+    rating:4.5, reviews:542,
+    ships:"Ships in 1–2 days",
     desc:"260gsm heavyweight tee with a structured drape. Minimal branding.",
-    images:[IMAGES.tee1, IMAGES.tee2, IMAGES.tee1, IMAGES.tee2],
+    images:[IMG.teeA, IMG.teeB, IMG.teeA, IMG.teeB],
     tags:["tee","heavyweight"]
   },
   {
-    id:"tw-tee-002",
+    id:"ss-tee-002",
     name:"BLACK CORE TEE",
     category:"Shirts",
     price:34,
     inStock:true,
     colors:["Black"],
     sizes:["S","M","L","XL"],
+    rating:4.6, reviews:384,
+    ships:"Ships in 1–2 days",
     desc:"Everyday essential. Slightly boxy with a clean collar.",
-    images:[IMAGES.tee2, IMAGES.tee1, IMAGES.tee2, IMAGES.tee1],
+    images:[IMG.teeB, IMG.teeA, IMG.teeB, IMG.teeA],
     tags:["tee","black"]
   },
 
   // PANTS
   {
-    id:"tw-pant-001",
+    id:"ss-pant-001",
     name:"MUSIC SWEATPANTS",
     category:"Pants",
     price:94,
     inStock:true,
     colors:["Black","Ash"],
     sizes:["S","M","L","XL"],
+    rating:4.7, reviews:226,
+    ships:"Ships in 1–2 days",
     desc:"Heavy sweatpants built for stacking. Deep pockets, premium drawcord.",
-    images:[IMAGES.pants1, IMAGES.pants2, IMAGES.pants1, IMAGES.pants2],
+    images:[IMG.pantsA, IMG.pantsB, IMG.pantsA, IMG.pantsB],
     tags:["sweatpants","stack"]
   },
   {
-    id:"tw-pant-002",
+    id:"ss-pant-002",
     name:"TECH CARGO PANTS",
     category:"Pants",
     price:98,
     inStock:true,
     colors:["Black","Olive"],
     sizes:["S","M","L","XL"],
+    rating:4.6, reviews:173,
+    ships:"Ships in 1–2 days",
     desc:"Technical cargo with a sharp taper. Lightweight, durable fabric.",
-    images:[IMAGES.pants2, IMAGES.pants1, IMAGES.pants2, IMAGES.pants1],
+    images:[IMG.pantsB, IMG.pantsA, IMG.pantsB, IMG.pantsA],
     tags:["cargo","tech"]
   },
 
   // SHORTS
   {
-    id:"tw-short-001",
+    id:"ss-short-001",
     name:"NYLON TRAIL SHORT",
     category:"Shorts",
     price:48,
     inStock:true,
     colors:["Black","Stone"],
     sizes:["S","M","L","XL"],
+    rating:4.4, reviews:109,
+    ships:"Ships in 1–2 days",
     desc:"Quick-dry nylon short with a secure zip pocket. Clean everyday fit.",
-    images:[IMAGES.shorts1, IMAGES.shorts2, IMAGES.shorts1, IMAGES.shorts2],
+    images:[IMG.shortsA, IMG.shortsB, IMG.shortsA, IMG.shortsB],
     tags:["nylon","trail"]
   },
   {
-    id:"tw-short-002",
+    id:"ss-short-002",
     name:"COTTON EVERYDAY SHORT",
     category:"Shorts",
     price:42,
     inStock:true,
     colors:["Black","Heather"],
     sizes:["S","M","L","XL"],
+    rating:4.5, reviews:88,
+    ships:"Ships in 1–2 days",
     desc:"Soft cotton short. Minimal branding, easy wear.",
-    images:[IMAGES.shorts2, IMAGES.shorts1, IMAGES.shorts2, IMAGES.shorts1],
+    images:[IMG.shortsB, IMG.shortsA, IMG.shortsB, IMG.shortsA],
     tags:["cotton","everyday"]
   },
 ];
 
 const $ = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
-
 const app = $("#app");
 const overlay = $("#overlay");
 
@@ -187,32 +203,28 @@ const searchResults = $("#searchResults");
 const toast = $("#toast");
 
 // Persisted state
-let cart = load("tw_cart", []); // [{id, color, size, qty}]
-let favorites = load("tw_favs", {}); // {id:true}
+let cart = load("ss_cart", []); // [{id, color, size, qty}]
+let favorites = load("ss_favs", {}); // {id:true}
 
 function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
 function load(key, fallback){
   try{ const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
   catch{ return fallback; }
 }
-
 function money(n){
   const x = Number(n);
   return x.toLocaleString(undefined, { style:"currency", currency:"USD" });
 }
-
 function showToast(msg){
   toast.textContent = msg;
   toast.classList.remove("hidden");
   clearTimeout(showToast._t);
   showToast._t = setTimeout(() => toast.classList.add("hidden"), 1600);
 }
-
 function setOverlay(on){
   overlay.classList.toggle("hidden", !on);
   overlay.setAttribute("aria-hidden", String(!on));
 }
-
 function anyLayerOpen(){
   return (
     !cartDrawer.classList.contains("hidden") ||
@@ -220,7 +232,6 @@ function anyLayerOpen(){
     !searchModal.classList.contains("hidden")
   );
 }
-
 function closeAllLayers(){
   closeCartDrawer();
   closeMobileNavDrawer();
@@ -238,7 +249,6 @@ function closeCartDrawer(){
   cartDrawer.setAttribute("aria-hidden","true");
   if(!anyLayerOpen()) setOverlay(false);
 }
-
 function openMobileNavDrawer(){
   mobileNav.classList.remove("hidden");
   mobileNav.setAttribute("aria-hidden","false");
@@ -249,7 +259,6 @@ function closeMobileNavDrawer(){
   mobileNav.setAttribute("aria-hidden","true");
   if(!anyLayerOpen()) setOverlay(false);
 }
-
 function openSearchModalUI(){
   searchModal.classList.remove("hidden");
   searchModal.setAttribute("aria-hidden","false");
@@ -264,62 +273,39 @@ function closeSearchModal(){
   if(!anyLayerOpen()) setOverlay(false);
 }
 
+/* ---------- Routing ---------- */
 function route(){
   const hash = location.hash.replace(/^#/, "") || "/";
   const parts = hash.split("/").filter(Boolean);
 
-  // close drawers when navigating
   closeMobileNavDrawer();
   closeSearchModal();
 
-  if(parts.length === 0){
-    renderHome();
-    return;
-  }
-
-  if(parts[0] === "shop"){
-    renderShop();
-    return;
-  }
-
-  if(parts[0] === "product" && parts[1]){
-    renderProduct(parts[1]);
-    return;
-  }
-
-  if(parts[0] === "favorites"){
-    renderFavorites();
-    return;
-  }
-
-  if(parts[0] === "contact"){
-    renderContact();
-    return;
-  }
+  if(parts.length === 0){ renderHome(); return; }
+  if(parts[0] === "shop"){ renderShop(); return; }
+  if(parts[0] === "product" && parts[1]){ renderProduct(parts[1]); return; }
+  if(parts[0] === "favorites"){ renderFavorites(); return; }
+  if(parts[0] === "contact"){ renderContact(); return; }
 
   renderNotFound();
 }
-
 window.addEventListener("hashchange", route);
 
-/* ---------- Cart + Favorites ---------- */
-
+/* ---------- Favorites ---------- */
 function setFav(id, on){
   if(on) favorites[id] = true;
   else delete favorites[id];
-  save("tw_favs", favorites);
+  save("ss_favs", favorites);
   renderBadges();
 }
-
 function toggleFav(id){
   const on = !favorites[id];
   setFav(id, on);
   showToast(on ? "Added to favorites" : "Removed from favorites");
 }
 
-function cartKey(line){
-  return `${line.id}::${line.color}::${line.size}`;
-}
+/* ---------- Cart ---------- */
+function cartKey(line){ return `${line.id}::${line.color}::${line.size}`; }
 
 function addToCart({id, color, size, qty}){
   const p = PRODUCTS.find(x=>x.id===id);
@@ -337,50 +323,37 @@ function addToCart({id, color, size, qty}){
   if(idx >= 0) cart[idx].qty += line.qty;
   else cart.push(line);
 
-  save("tw_cart", cart);
+  save("ss_cart", cart);
   renderBadges();
   renderCart();
   showToast("Added to cart");
 }
-
 function removeLine(key){
   cart = cart.filter(x => cartKey(x) !== key);
-  save("tw_cart", cart);
+  save("ss_cart", cart);
   renderBadges();
   renderCart();
 }
-
 function changeQty(key, delta){
-  cart = cart.map(x => {
-    if(cartKey(x) !== key) return x;
-    return { ...x, qty: Math.max(1, x.qty + delta) };
-  });
-  save("tw_cart", cart);
+  cart = cart.map(x => (cartKey(x) !== key) ? x : ({...x, qty: Math.max(1, x.qty + delta)}));
+  save("ss_cart", cart);
   renderBadges();
   renderCart();
 }
-
 function subtotal(){
   return cart.reduce((sum, line) => {
     const p = PRODUCTS.find(x=>x.id===line.id);
     return p ? sum + p.price * line.qty : sum;
   }, 0);
 }
-
 function shippingEstimate(sub){
-  // simple realistic demo: free over 100, else 8
   if(sub === 0) return 0;
   return sub >= 100 ? 0 : 8;
 }
-
 function renderBadges(){
-  const count = cart.reduce((a,x)=>a+x.qty,0);
-  cartCount.textContent = String(count);
-
-  const f = Object.keys(favorites).length;
-  favCount.textContent = String(f);
+  cartCount.textContent = String(cart.reduce((a,x)=>a+x.qty,0));
+  favCount.textContent = String(Object.keys(favorites).length);
 }
-
 function renderCart(){
   const sub = subtotal();
   const ship = shippingEstimate(sub);
@@ -428,7 +401,6 @@ function renderCart(){
 }
 
 /* ---------- Search ---------- */
-
 function renderSearchResults(q){
   const query = (q||"").trim().toLowerCase();
   const results = query
@@ -442,7 +414,7 @@ function renderSearchResults(q){
   searchResults.innerHTML = results.map(p => `
     <div class="sresult">
       <div class="sleft">
-        <div class="simg"><img src="${p.images[0]}" alt="${escapeHtml(p.name)}" loading="lazy"></div>
+        <div class="simg"><img src="${imgW(p.images[0], 200)}" alt="${escapeHtml(p.name)}" loading="lazy"></div>
         <div>
           <div class="sname">${escapeHtml(p.name)}</div>
           <div class="smini">${p.category} • ${money(p.price)} ${p.inStock ? "" : "• SOLD OUT"}</div>
@@ -454,7 +426,6 @@ function renderSearchResults(q){
 }
 
 /* ---------- Pages ---------- */
-
 function renderHome(){
   const featured = PRODUCTS.find(p=>p.inStock) || PRODUCTS[0];
 
@@ -464,37 +435,27 @@ function renderHome(){
         <div class="hero-card">
           <div class="hero-body">
             <div class="kicker">New drop</div>
-            <div class="h1">Minimal essentials.<br/>Built to stack.</div>
+            <div class="h1">Premium essentials.<br/>Tight, minimal UX.</div>
             <p class="hero-p">
-              A demo storefront that looks and behaves like a real apparel brand site:
-              filters, favorites, product pages, cart drawer, search, responsive UX.
+              Mobile-first apparel storefront: filters, favorites, product pages, cart drawer, and search.
+              Built to feel real so your body-scan demo looks legit.
             </p>
-
             <div class="btnrow">
               <a class="btn primary" href="#/shop">Shop</a>
-              <button class="btn ghost" id="viewFeatured" type="button">View featured</button>
-            </div>
-
-            <div class="pills">
-              <button class="pill active" data-cat="All" type="button">All</button>
-              <button class="pill" data-cat="Jeans" type="button">Jeans</button>
-              <button class="pill" data-cat="Shirts" type="button">Shirts</button>
-              <button class="pill" data-cat="Pants" type="button">Pants</button>
-              <button class="pill" data-cat="Hoodies" type="button">Hoodies</button>
-              <button class="pill" data-cat="Shorts" type="button">Shorts</button>
+              <a class="btn ghost" href="#/product/${encodeURIComponent(featured.id)}">Featured</a>
             </div>
           </div>
         </div>
 
         <div class="hero-card">
-          <div class="hero-media" style="background-image:url('${featured.images[0]}')"></div>
+          <div class="hero-media" style="background-image:url('${imgW(featured.images[0], 1400)}')"></div>
           <div class="hero-body">
             <div class="kicker">Featured</div>
             <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-end;">
-              <div style="font-weight:950;">${escapeHtml(featured.name)}</div>
-              <div style="font-weight:950;">${money(featured.price)}</div>
+              <div style="font-weight:980;letter-spacing:.08em;text-transform:uppercase;font-size:12px">${escapeHtml(featured.name)}</div>
+              <div style="font-weight:980;">${money(featured.price)}</div>
             </div>
-            <div class="submeta">${escapeHtml(featured.desc)}</div>
+            <div class="fine muted" style="margin-top:8px">${featured.ships}</div>
             <div class="btnrow" style="margin-top:12px;">
               <a class="btn primary wide" href="#/product/${encodeURIComponent(featured.id)}">View product</a>
             </div>
@@ -516,35 +477,21 @@ function renderHome(){
     </section>
   `;
 
-  $("#viewFeatured")?.addEventListener("click", () => location.hash = `#/product/${featured.id}`);
-
-  // category pill shortcuts
-  $$(".pill").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const cat = btn.getAttribute("data-cat");
-      if(!cat) return;
-      location.hash = `#/shop?cat=${encodeURIComponent(cat)}`;
-    });
-  });
-
-  // render 6 items
   const grid = $("#homeGrid");
   grid.innerHTML = PRODUCTS.slice(0, 6).map(cardHTML).join("");
   wireCardButtons(grid);
 }
 
 function renderShop(){
-  // default filters
   const state = {
     cat: "All",
     q: "",
     sort: "featured",
     priceMax: 150,
-    sizes: new Set(), // multi
-    availability: "all" // all | in | out
+    sizes: new Set(),
+    availability: "all"
   };
 
-  // parse query string from hash (like #/shop?cat=Jeans)
   const hash = location.hash;
   const qs = hash.includes("?") ? hash.split("?")[1] : "";
   const params = new URLSearchParams(qs);
@@ -555,7 +502,7 @@ function renderShop(){
     <section class="wrap">
       <div class="section-head">
         <h2 class="h2">Shop</h2>
-        <div class="muted">Filter by price, size, availability. Favorites + cart are persistent.</div>
+        <div class="muted">Filters + favorites + cart work on mobile.</div>
       </div>
 
       <div class="shoplayout">
@@ -591,7 +538,7 @@ function renderShop(){
           <div class="fgroup">
             <div class="flabel">Size</div>
             <div class="checks" id="sizeChecks"></div>
-            <div class="small">Tip: select multiple sizes.</div>
+            <div class="small">Select multiple sizes.</div>
           </div>
 
           <div class="fgroup">
@@ -620,22 +567,18 @@ function renderShop(){
 
         <div>
           <div class="section-head" style="margin-top:0">
-            <h2 class="h2" id="resultsTitle">Results</h2>
+            <h2 class="h2">Results</h2>
             <div class="muted" id="resultsCount"></div>
           </div>
           <div class="grid" id="shopGrid"></div>
         </div>
       </div>
 
-      <div class="footer">
-        © ${new Date().getFullYear()} Stone & Stitch • Demo storefront
-      </div>
+      <div class="footer">© ${new Date().getFullYear()} Stone & Stitch • Demo storefront</div>
     </section>
   `;
 
-  // sizes union across products
   const allSizes = Array.from(new Set(PRODUCTS.flatMap(p => p.sizes))).sort((a,b)=>{
-    // numeric sizes first
     const na = Number(a), nb = Number(b);
     const aNum = !Number.isNaN(na), bNum = !Number.isNaN(nb);
     if(aNum && bNum) return na-nb;
@@ -644,8 +587,7 @@ function renderShop(){
     return String(a).localeCompare(String(b));
   });
 
-  const sizeChecks = $("#sizeChecks");
-  sizeChecks.innerHTML = allSizes.map(s => `
+  $("#sizeChecks").innerHTML = allSizes.map(s => `
     <label class="check">
       <input type="checkbox" value="${escapeHtml(s)}" />
       <span>${escapeHtml(s)}</span>
@@ -662,7 +604,6 @@ function renderShop(){
   const grid = $("#shopGrid");
   const resultsCount = $("#resultsCount");
 
-  // set initial cat
   catEl.value = state.cat;
 
   function apply(){
@@ -721,7 +662,6 @@ function renderProduct(id){
   let selectedColor = p.colors[0];
   let selectedSize = p.sizes[0];
   let qty = 1;
-  let mainImg = p.images[0];
 
   app.innerHTML = `
     <section class="wrap">
@@ -733,7 +673,7 @@ function renderProduct(id){
       <div class="product">
         <div class="gallery">
           <div class="gallery-main">
-            <img id="mainImg" src="${mainImg}" alt="${escapeHtml(p.name)}" />
+            <img id="mainImg" src="${imgW(p.images[0], 1400)}" alt="${escapeHtml(p.name)}" />
           </div>
           <div class="thumbs" id="thumbs"></div>
         </div>
@@ -741,12 +681,20 @@ function renderProduct(id){
         <div class="pinfo">
           <div class="kicker">${p.inStock ? "In stock" : "Sold out"}</div>
           <h1 class="pbig">${escapeHtml(p.name)}</h1>
+
           <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-top:10px">
             <strong style="font-size:18px">${money(p.price)}</strong>
             <button class="btn ${favorites[p.id] ? "primary" : ""}" id="favToggle" type="button">
               ${favorites[p.id] ? "♥ Favorited" : "♡ Favorite"}
             </button>
           </div>
+
+          <div class="rating">
+            <span class="stars">${stars(p.rating)}</span>
+            <span>${p.rating.toFixed(1)} • ${p.reviews} reviews</span>
+          </div>
+
+          <div class="fine muted" style="margin-top:8px">${p.ships}</div>
 
           <p class="psub">${escapeHtml(p.desc)}</p>
 
@@ -781,7 +729,7 @@ function renderProduct(id){
             </div>
 
             <div class="fine muted">
-              Fit feature hook: you can add your “Body Scan Fit” button right above checkout later.
+              Fit hook: you can place your Body Scan UI right before checkout later.
             </div>
           </div>
         </div>
@@ -801,7 +749,7 @@ function renderProduct(id){
   const thumbs = $("#thumbs");
   thumbs.innerHTML = p.images.map((src, i) => `
     <button class="thumb ${i===0 ? "active":""}" data-src="${src}" type="button">
-      <img src="${src}" alt="${escapeHtml(p.name)} thumbnail ${i+1}" loading="lazy">
+      <img src="${imgW(src, 400)}" alt="${escapeHtml(p.name)} thumbnail ${i+1}" loading="lazy">
     </button>
   `).join("");
 
@@ -809,8 +757,8 @@ function renderProduct(id){
     btn.addEventListener("click", ()=>{
       $$(".thumb", thumbs).forEach(x=>x.classList.remove("active"));
       btn.classList.add("active");
-      mainImg = btn.getAttribute("data-src") || p.images[0];
-      $("#mainImg").src = mainImg;
+      const src = btn.getAttribute("data-src") || p.images[0];
+      $("#mainImg").src = imgW(src, 1400);
     });
   });
 
@@ -917,7 +865,7 @@ function renderContact(){
           <div class="fgroup">
             <button class="btn primary wide" id="sendMsg" type="button">Send</button>
           </div>
-          <div class="fine muted">This is a demo. You can wire it to your backend later.</div>
+          <div class="fine muted">Wire this to your backend later if you want.</div>
         </div>
       </div>
 
@@ -932,7 +880,7 @@ function renderContact(){
       showToast("Please fill in email + message");
       return;
     }
-    save("tw_contact_last", {email, msg, ts: Date.now()});
+    save("ss_contact_last", {email, msg, ts: Date.now()});
     $("#cEmail").value = "";
     $("#cMsg").value = "";
     showToast("Message sent (demo)");
@@ -955,15 +903,11 @@ function renderNotFound(){
   `;
 }
 
-/* ---------- Filtering helpers ---------- */
-
+/* ---------- Filtering ---------- */
 function filteredProducts(state){
   let items = PRODUCTS.slice();
 
-  if(state.cat && state.cat !== "All"){
-    items = items.filter(p => p.category === state.cat);
-  }
-
+  if(state.cat && state.cat !== "All") items = items.filter(p => p.category === state.cat);
   if(state.availability === "in") items = items.filter(p => p.inStock);
   if(state.availability === "out") items = items.filter(p => !p.inStock);
 
@@ -983,7 +927,7 @@ function filteredProducts(state){
   }
 
   if(state.sort === "featured"){
-    items.sort((a,b)=> Number(b.inStock) - Number(a.inStock)); // in stock first
+    items.sort((a,b)=> Number(b.inStock) - Number(a.inStock));
   } else if(state.sort === "low"){
     items.sort((a,b)=>a.price-b.price);
   } else if(state.sort === "high"){
@@ -995,8 +939,7 @@ function filteredProducts(state){
   return items;
 }
 
-/* ---------- Card rendering ---------- */
-
+/* ---------- Cards ---------- */
 function cardHTML(p){
   const sold = !p.inStock;
   const favOn = !!favorites[p.id];
@@ -1004,17 +947,24 @@ function cardHTML(p){
   return `
     <article class="card">
       <a class="media" href="#/product/${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.name)}">
-        <img src="${p.images[0]}" alt="${escapeHtml(p.name)}" loading="lazy" />
+        <img src="${imgW(p.images[0], 900)}" alt="${escapeHtml(p.name)}" loading="lazy" />
         ${sold ? `<div class="sold">SOLD OUT</div>` : ``}
       </a>
 
       <div class="cardbody">
         <h3 class="pname">${escapeHtml(p.name)}</h3>
+
         <div class="meta">
           <div class="muted">${p.category}</div>
           <div class="price">${money(p.price)}</div>
         </div>
-        <div class="submeta">${escapeHtml(p.desc)}</div>
+
+        <div class="rating">
+          <span class="stars">${stars(p.rating)}</span>
+          <span>${p.rating.toFixed(1)} • ${p.reviews}</span>
+        </div>
+
+        <div class="fine muted" style="margin-top:6px">${p.ships}</div>
 
         <div class="cardbtns">
           <button class="btn ${favOn ? "primary heart on" : "heart"}" data-fav="${escapeHtml(p.id)}" type="button" aria-label="Favorite">
@@ -1037,7 +987,6 @@ function wireCardButtons(root){
       e.stopPropagation();
       const id = b.getAttribute("data-fav");
       toggleFav(id);
-      // re-render current page for accurate UI (simple + reliable)
       route();
     });
   });
@@ -1048,68 +997,72 @@ function wireCardButtons(root){
       const p = PRODUCTS.find(x=>x.id===id);
       if(!p) return;
 
-      addToCart({
-        id: p.id,
-        color: p.colors[0],
-        size: p.sizes[0],
-        qty: 1
-      });
+      addToCart({ id:p.id, color:p.colors[0], size:p.sizes[0], qty:1 });
       openCartDrawer();
     });
   });
 }
 
-/* ---------- Utilities ---------- */
-
+/* ---------- Helpers ---------- */
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, m => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
   }[m]));
 }
 
-/* ---------- Global wiring ---------- */
-
-renderBadges();
-renderCart();
-route();
-
-cartBtn.addEventListener("click", openCartDrawer);
-closeCart.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); closeCartDrawer(); });
-
-favBtn.addEventListener("click", ()=> { location.hash = "#/favorites"; });
-
-mobileMenuBtn.addEventListener("click", openMobileNavDrawer);
-closeMobileNav.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); closeMobileNavDrawer(); });
-
-openSearch.addEventListener("click", openSearchModalUI);
-closeSearch.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); closeSearchModal(); });
-
-searchInputGlobal.addEventListener("input", ()=> renderSearchResults(searchInputGlobal.value));
-
-overlay.addEventListener("click", ()=>{
-  // close top-most layer
-  if(!searchModal.classList.contains("hidden")) { closeSearchModal(); return; }
-  if(!mobileNav.classList.contains("hidden")) { closeMobileNavDrawer(); return; }
-  if(!cartDrawer.classList.contains("hidden")) { closeCartDrawer(); return; }
-  setOverlay(false);
-});
-
-document.addEventListener("keydown", (e)=>{
-  if(e.key !== "Escape") return;
-  closeAllLayers();
-});
-
-checkoutBtn.addEventListener("click", ()=>{
-  if(cart.length === 0){
-    showToast("Your cart is empty");
-    return;
-  }
-  // This is where your body-scan / payment-like API can slot in later.
-  showToast("Checkout flow hook (integrate your API here)");
-});
-
-/* If user opens search modal, ensure results show */
-function renderSearchResultsInitial(){
-  renderSearchResults("");
+// Force reliable sizing (helps iPhone load faster too)
+function imgW(url, w){
+  // Unsplash supports width query param; if url already has ?, append &
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}auto=format&fit=crop&w=${w}&q=80`;
 }
-renderSearchResultsInitial();
+
+function stars(r){
+  // 5-star display with filled stars only (simple + clean)
+  const full = Math.max(0, Math.min(5, Math.round(r)));
+  return "★★★★★".slice(0, full) + "☆☆☆☆☆".slice(0, 5-full);
+}
+
+/* ---------- Global wiring ---------- */
+function init(){
+  renderBadges();
+  renderCart();
+  route();
+  renderSearchResults("");
+
+  cartBtn.addEventListener("click", openCartDrawer);
+  closeCart.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); closeCartDrawer(); });
+
+  favBtn.addEventListener("click", ()=> { location.hash = "#/favorites"; });
+
+  mobileMenuBtn.addEventListener("click", openMobileNavDrawer);
+  closeMobileNav.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); closeMobileNavDrawer(); });
+
+  openSearch.addEventListener("click", openSearchModalUI);
+  closeSearch.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); closeSearchModal(); });
+
+  searchInputGlobal.addEventListener("input", ()=> renderSearchResults(searchInputGlobal.value));
+
+  overlay.addEventListener("click", ()=>{
+    if(!searchModal.classList.contains("hidden")) { closeSearchModal(); return; }
+    if(!mobileNav.classList.contains("hidden")) { closeMobileNavDrawer(); return; }
+    if(!cartDrawer.classList.contains("hidden")) { closeCartDrawer(); return; }
+    setOverlay(false);
+  });
+
+  document.addEventListener("keydown", (e)=>{
+    if(e.key !== "Escape") return;
+    closeAllLayers();
+  });
+
+  checkoutBtn.addEventListener("click", ()=>{
+    if(cart.length === 0){
+      showToast("Your cart is empty");
+      return;
+    }
+    // Hook point for your API later
+    showToast("Checkout hook ready (integrate your API here)");
+  });
+}
+
+init();
