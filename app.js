@@ -502,21 +502,27 @@ function filter(state){
 }
 
 function cardHTML(p){
-  const favOn=!!favorites[p.id];
+  const favOn = !!favorites[p.id];
   return `
     <article class="card">
       <a class="media" href="#/product/${encodeURIComponent(p.id)}">
         <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" />
-        ${p.inStock?"":`<div class="sold">SOLD OUT</div>`}
+        ${p.inStock ? "" : `<div class="sold">SOLD OUT</div>`}
       </a>
+
       <div class="cardbody">
         <div class="pname">${esc(p.name)}</div>
-        <div class="meta"><div class="muted">${p.category}</div><div class="price">${money(p.price)}</div></div>
-        <div class="sub"><span>${p.ship}</span><span>${p.sizes.length} sizes</span></div>
+        <div class="price">${money(p.price)} USD</div>
+        <div class="sub">${p.ship}</div>
+
         <div class="cardbtns">
-          <button class="btn ${favOn?"heart on":"heart"}" data-fav="${esc(p.id)}" type="button">${favOn?"♥":"♡"}</button>
+          <button class="btn ${favOn ? "heart on" : "heart"}" data-fav="${esc(p.id)}" type="button">
+            ${favOn ? "♥" : "♡"}
+          </button>
           <a class="btn wide" href="#/product/${encodeURIComponent(p.id)}">View</a>
-          <button class="btn primary wide" data-quick="${esc(p.id)}" type="button" ${p.inStock?"":"disabled"}>${p.inStock?"Quick add":"Sold out"}</button>
+          <button class="btn primary wide" data-quick="${esc(p.id)}" type="button" ${p.inStock ? "" : "disabled"}>
+            ${p.inStock ? "Quick add" : "Sold out"}
+          </button>
         </div>
       </div>
     </article>
@@ -571,3 +577,4 @@ checkoutBtn.addEventListener("click",()=>{
   if(cart.length===0){ toastMsg("Cart is empty"); return; }
   toastMsg("Checkout hook ready (integrate your API here)");
 });
+
