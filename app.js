@@ -319,6 +319,7 @@ function renderShop(){
               <option>Pants</option>
               <option>Hoodies</option>
               <option>Shorts</option>
+              <option>Accessories</option>
             </select>
           </div>
 
@@ -639,5 +640,6 @@ checkoutBtn.addEventListener("click",()=>{
   if(cart.length===0){ toastMsg("Cart is empty"); return; }
   toastMsg("Checkout hook ready (integrate your API here)");
 });
+
 
 
