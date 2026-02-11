@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stone & Stitch — Apparel</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="wrap header-row">
+      <a class="brand" href="#">
+        <span class="brand-mark"></span>
+        <span>Stone &amp; Stitch</span>
+      </a>
+
+      <nav class="nav">
+        <button class="pill is-active" data-filter="all">All</button>
+        <button class="pill" data-filter="Jeans">Jeans</button>
+        <button class="pill" data-filter="Shirts">Shirts</button>
+        <button class="pill" data-filter="Pants">Pants</button>
+        <button class="pill" data-filter="Hoodies">Hoodies</button>
+        <button class="pill" data-filter="Shorts">Shorts</button>
+      </nav>
+
+      <div class="header-actions">
+        <button id="cartBtn" class="btn">Cart <span id="cartCount" class="count">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <h1>Everyday essentials. Built clean.</h1>
+          <p>
+            Denim that holds shape, hoodies that stay soft, and basics you can wear anywhere.
+            Browse by category and add items to your cart.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#shop">Shop best sellers</a>
+            <a class="btn btn-ghost" href="#about">About</a>
+          </div>
+          <div class="badges">
+            <span class="badge">Free returns</span>
+            <span class="badge">Ships in 1–2 days</span>
+            <span class="badge">Secure checkout (demo)</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-img"></div>
+          <div class="hero-card-row">
+            <div>
+              <div class="muted">Featured</div>
+              <div class="featured-title">Selvedge Straight Jean</div>
+            </div>
+            <div class="price">$98</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop" class="section">
+      <div class="wrap section-head">
+        <h2>Shop</h2>
+        <div class="search">
+          <input id="searchInput" type="search" placeholder="Search products…" />
+          <select id="sortSelect">
+            <option value="featured">Sort: Featured</option>
+            <option value="low">Price: Low → High</option>
+            <option value="high">Price: High → Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="wrap grid" id="productGrid"></div>
+    </section>
+
+    <section id="about" class="section alt">
+      <div class="wrap about">
+        <div>
+          <h2>About Stone &amp; Stitch</h2>
+          <p>
+            This is a lightweight demo storefront you can deploy instantly and customize.
+            Swap names, colors, products, and connect a real checkout (Shopify/Stripe) later.
+          </p>
+          <ul class="list">
+            <li>Simple category filtering + search</li>
+            <li>Cart drawer with totals</li>
+            <li>Mobile-friendly layout</li>
+          </ul>
+        </div>
+        <div class="about-card">
+          <div class="about-stat">
+            <div class="stat">12</div>
+            <div class="muted">Products</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat">5</div>
+            <div class="muted">Categories</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat">0</div>
+            <div class="muted">External deps</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap footer-row">
+        <div class="muted">© <span id="year"></span> Stone &amp; Stitch</div>
+        <div class="muted">Demo storefront • Not a real checkout</div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Cart Drawer -->
+  <div id="cartOverlay" class="overlay hidden"></div>
+  <aside id="cartDrawer" class="drawer hidden" aria-hidden="true">
+    <div class="drawer-head">
+      <h3>Your Cart</h3>
+      <button id="closeCart" class="icon-btn" aria-label="Close cart">✕</button>
+    </div>
+    <div id="cartItems" class="drawer-body"></div>
+    <div class="drawer-foot">
+      <div class="row">
+        <span class="muted">Subtotal</span>
+        <strong id="cartSubtotal">$0</strong>
+      </div>
+      <button id="checkoutBtn" class="btn btn-primary w-full">Checkout (demo)</button>
+      <div class="fine muted">Tip: Replace this with Stripe/Shopify later.</div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
