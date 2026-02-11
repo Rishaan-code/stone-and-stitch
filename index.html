@@ -6,7 +6,10 @@
   <title>Stone & Stitch — Apparel</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
+  <div class="bg-noise"></div>
+
   <header class="header">
     <div class="wrap header-row">
       <a class="brand" href="#">
@@ -14,7 +17,7 @@
         <span>Stone &amp; Stitch</span>
       </a>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Product categories">
         <button class="pill is-active" data-filter="all">All</button>
         <button class="pill" data-filter="Jeans">Jeans</button>
         <button class="pill" data-filter="Shirts">Shirts</button>
@@ -24,7 +27,12 @@
       </nav>
 
       <div class="header-actions">
-        <button id="cartBtn" class="btn">Cart <span id="cartCount" class="count">0</span></button>
+        <button id="wishlistBtn" class="btn btn-ghost" title="Wishlist">
+          ♥ <span id="wishCount" class="count">0</span>
+        </button>
+        <button id="cartBtn" class="btn">
+          Cart <span id="cartCount" class="count">0</span>
+        </button>
       </div>
     </div>
   </header>
@@ -32,15 +40,16 @@
   <main>
     <section class="hero">
       <div class="wrap hero-grid">
-        <div>
-          <h1>Everyday essentials. Built clean.</h1>
+        <div class="hero-left reveal">
+          <div class="chip">New Drop • Winter Core</div>
+          <h1>Minimal essentials, built to flex.</h1>
           <p>
             Denim that holds shape, hoodies that stay soft, and basics you can wear anywhere.
-            Browse by category and add items to your cart.
+            Tap any item for a quick view.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#shop">Shop best sellers</a>
-            <a class="btn btn-ghost" href="#about">About</a>
+            <a class="btn btn-primary" href="#shop">Shop</a>
+            <button id="scrollBtn" class="btn btn-ghost">See best sellers</button>
           </div>
           <div class="badges">
             <span class="badge">Free returns</span>
@@ -49,14 +58,17 @@
           </div>
         </div>
 
-        <div class="hero-card">
-          <div class="hero-img"></div>
+        <div class="hero-card reveal">
+          <div class="hero-img" id="heroImg"></div>
           <div class="hero-card-row">
             <div>
               <div class="muted">Featured</div>
-              <div class="featured-title">Selvedge Straight Jean</div>
+              <div class="featured-title" id="heroTitle">—</div>
             </div>
-            <div class="price">$98</div>
+            <div class="price" id="heroPrice">$—</div>
+          </div>
+          <div class="hero-card-row">
+            <button id="heroQuickView" class="btn w-full">Quick view</button>
           </div>
         </div>
       </div>
@@ -64,8 +76,8 @@
 
     <section id="shop" class="section">
       <div class="wrap section-head">
-        <h2>Shop</h2>
-        <div class="search">
+        <h2 class="reveal">Shop</h2>
+        <div class="search reveal">
           <input id="searchInput" type="search" placeholder="Search products…" />
           <select id="sortSelect">
             <option value="featured">Sort: Featured</option>
@@ -75,26 +87,27 @@
         </div>
       </div>
 
-      <div class="wrap grid" id="productGrid"></div>
+      <div class="wrap grid" id="productGrid" aria-live="polite"></div>
     </section>
 
     <section id="about" class="section alt">
       <div class="wrap about">
-        <div>
+        <div class="reveal">
           <h2>About Stone &amp; Stitch</h2>
           <p>
-            This is a lightweight demo storefront you can deploy instantly and customize.
-            Swap names, colors, products, and connect a real checkout (Shopify/Stripe) later.
+            A clean demo storefront with real UI patterns: quick view, wishlist, cart drawer,
+            and checkout modal. You can later swap the “Checkout” into Stripe or Shopify.
           </p>
           <ul class="list">
-            <li>Simple category filtering + search</li>
-            <li>Cart drawer with totals</li>
-            <li>Mobile-friendly layout</li>
+            <li>Smooth transitions + hover effects</li>
+            <li>Scroll-in reveal animations</li>
+            <li>LocalStorage cart/wishlist persistence</li>
           </ul>
         </div>
-        <div class="about-card">
+
+        <div class="about-card reveal">
           <div class="about-stat">
-            <div class="stat">12</div>
+            <div class="stat" id="statProducts">—</div>
             <div class="muted">Products</div>
           </div>
           <div class="about-stat">
@@ -102,8 +115,8 @@
             <div class="muted">Categories</div>
           </div>
           <div class="about-stat">
-            <div class="stat">0</div>
-            <div class="muted">External deps</div>
+            <div class="stat">Fast</div>
+            <div class="muted">Static deploy</div>
           </div>
         </div>
       </div>
@@ -117,8 +130,10 @@
     </footer>
   </main>
 
+  <!-- Overlay -->
+  <div id="overlay" class="overlay hidden"></div>
+
   <!-- Cart Drawer -->
-  <div id="cartOverlay" class="overlay hidden"></div>
   <aside id="cartDrawer" class="drawer hidden" aria-hidden="true">
     <div class="drawer-head">
       <h3>Your Cart</h3>
@@ -130,10 +145,89 @@
         <span class="muted">Subtotal</span>
         <strong id="cartSubtotal">$0</strong>
       </div>
-      <button id="checkoutBtn" class="btn btn-primary w-full">Checkout (demo)</button>
-      <div class="fine muted">Tip: Replace this with Stripe/Shopify later.</div>
+      <button id="checkoutBtn" class="btn btn-primary w-full">Checkout</button>
+      <div class="fine muted">Demo checkout modal (no payment yet).</div>
     </div>
   </aside>
+
+  <!-- Quick View Modal -->
+  <section id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div class="modal-title">
+          <h3 id="mTitle">—</h3>
+          <div class="muted" id="mKicker">—</div>
+        </div>
+        <button id="closeModal" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-grid">
+        <div class="modal-img-wrap">
+          <img id="mImg" alt="" loading="lazy" />
+        </div>
+
+        <div class="modal-info">
+          <div class="price big" id="mPrice">$—</div>
+          <p class="muted" id="mNote">—</p>
+
+          <div class="sizes">
+            <button class="size is-active">S</button>
+            <button class="size">M</button>
+            <button class="size">L</button>
+            <button class="size">XL</button>
+          </div>
+
+          <div class="modal-actions">
+            <button id="mAdd" class="btn btn-primary w-full">Add to cart</button>
+            <button id="mWish" class="btn w-full">♡ Save</button>
+          </div>
+
+          <div class="fine muted">
+            Shipping: 1–2 days • Free returns • Quality guaranteed (demo)
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Checkout Modal -->
+  <section id="checkout" class="modal hidden" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div class="modal-title">
+          <h3>Checkout</h3>
+          <div class="muted">Demo form (no payment processing yet)</div>
+        </div>
+        <button id="closeCheckout" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+
+      <form id="checkoutForm" class="checkout-form">
+        <label>
+          Full name
+          <input required name="name" placeholder="Your name" />
+        </label>
+        <label>
+          Email
+          <input required type="email" name="email" placeholder="you@email.com" />
+        </label>
+        <label>
+          Address
+          <input required name="address" placeholder="Street, city, zip" />
+        </label>
+
+        <div class="row">
+          <div class="muted">Total</div>
+          <strong id="checkoutTotal">$0</strong>
+        </div>
+
+        <button class="btn btn-primary w-full" type="submit">Place order</button>
+        <div class="fine muted">This just shows a success message.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
 
   <script src="app.js"></script>
 </body>
