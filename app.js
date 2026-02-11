@@ -48,6 +48,7 @@ const PRODUCTS = [
   {id:"nt-hood-1", name:"BRIGHT STAR ZIPUP BLACK",   category:"Hoodies", price:84, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood1, tags:["hoodie","zip"]},
   {id:"nt-hood-2", name:"PURE WHITE STAR ZIPUP",     category:"Hoodies", price:84, inStock:true,  colors:["White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood2, tags:["hoodie","zip"]},
   {id:"nt-hood-3", name:"RETURN TO FOREVER HOODIE",  category:"Hoodies", price:76, inStock:false, colors:["Black"], sizes:["S","M","L","XL"], ship:"Restock soon", img:IMG.hood3, tags:["hoodie"]},
+  {id:"nt-jack-1", name:"LIGHTWEIGHT JACKET",        category:"Hoodies", price:118,inStock:true,  colors:["Black","Charcoal"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.jacket1, tags:["jacket","outer"]},
 
   // SHIRTS
   {id:"nt-shirt-1", name:"HEAVY TEE",                category:"Shirts", price:34, inStock:true,  colors:["White","Off-White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee1, tags:["tee","heavy"]},
@@ -65,22 +66,11 @@ const PRODUCTS = [
   {id:"nt-short-2", name:"COTTON EVERYDAY SHORT",    category:"Shorts", price:42, inStock:true,  colors:["Heather","Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short2, tags:["shorts","cotton"]},
   {id:"nt-short-3", name:"MESH GYM SHORT",           category:"Shorts", price:38, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short3, tags:["shorts","mesh"]},
 
-  // ACCESSORIES (for testing)
+  // ACCESSORIES
   {id:"nt-acc-1", name:"FOREVER FITTED HAT",         category:"Accessories", price:42, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.hat1, tags:["hat","cap"]},
   {id:"nt-acc-2", name:"LOGO BEANIE",                category:"Accessories", price:28, inStock:true,  colors:["Black","Grey"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.hat2, tags:["beanie"]},
   {id:"nt-acc-3", name:"SERPENT BELT",               category:"Accessories", price:68, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.belt1, tags:["belt"]},
   {id:"nt-acc-4", name:"MINI CROSSBODY BAG",         category:"Accessories", price:58, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.bag1, tags:["bag"]},
-];
-
-
-const PRODUCTS = [
-  {id:"nt-denim-1", name:"WAXED STACK DENIM", category:"Jeans", price:124, inStock:true,  colors:["Black Wax","Indigo"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denimB, tags:["denim","stack","waxed"]},
-  {id:"nt-denim-2", name:"STRAIGHT DENIM",   category:"Jeans", price:94,  inStock:true,  colors:["Vintage Blue","Washed Black"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denimA, tags:["denim","straight"]},
-  {id:"nt-hood-1",  name:"ZIP HOODIE",       category:"Hoodies", price:84, inStock:true, colors:["Black","Washed Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hoodieA, tags:["hoodie","zip"]},
-  {id:"nt-hood-2",  name:"PULLOVER HOODIE",  category:"Hoodies", price:76, inStock:false,colors:["Graphite","Sand"], sizes:["S","M","L","XL"], ship:"Restock soon", img:IMG.hoodieB, tags:["hoodie"]},
-  {id:"nt-tee-1",   name:"HEAVY TEE",        category:"Shirts", price:34, inStock:true,  colors:["White","Off-White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.teeA, tags:["tee","heavy"]},
-  {id:"nt-pant-1",  name:"TECH CARGO",       category:"Pants", price:98, inStock:true, colors:["Black","Olive"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pantsA, tags:["cargo","tech"]},
-  {id:"nt-short-1", name:"NYLON SHORT",      category:"Shorts", price:48, inStock:true, colors:["Black","Stone"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.shortsA, tags:["shorts","nylon"]},
 ];
 
 const $ = (s, r=document)=>r.querySelector(s);
@@ -258,7 +248,7 @@ function route(){
 window.addEventListener("hashchange", route);
 
 function renderHome(){
-  const heroImg = IMG.denimB;
+  const heroImg = IMG.denim2; // ✅ fixed key
   app.innerHTML = `
     <section class="wrap">
       <div class="hero">
@@ -287,7 +277,7 @@ function renderHome(){
   $("#openSearch2").addEventListener("click", openSearchModalUI);
 
   const g=$("#featGrid");
-  g.innerHTML = PRODUCTS.slice(0,6).map(cardHTML).join("");
+  g.innerHTML = PRODUCTS.slice(0,8).map(cardHTML).join("");
   wireCardButtons(g);
 }
 
@@ -472,8 +462,11 @@ function renderProduct(id){
         <div class="card" style="grid-column:span 5">
           <div class="cardbody">
             <div class="pname">${esc(p.name)}</div>
-            <div class="meta"><div class="muted">${p.inStock?"In stock":"Sold out"}</div><div class="price">${money(p.price)}</div></div>
-            <div class="sub"><span>${p.ship}</span><span>${p.colors.length} color(s)</span></div>
+            <div class="row" style="margin-top:8px;">
+              <div class="muted">${p.inStock?"In stock":"Sold out"}</div>
+              <div class="price">${money(p.price)}</div>
+            </div>
+            <div class="sub" style="margin-top:8px;">${p.ship}</div>
 
             <div class="fgroup">
               <div class="flabel">Color</div>
@@ -640,6 +633,3 @@ checkoutBtn.addEventListener("click",()=>{
   if(cart.length===0){ toastMsg("Cart is empty"); return; }
   toastMsg("Checkout hook ready (integrate your API here)");
 });
-
-
-
