@@ -1,85 +1,86 @@
-// Twofouro-inspired (not cloned) storefront: filters, favorites, sizes, search, cart.
-// Images are free Unsplash links; swap later.
+// Classy modern storefront demo: filters, favorites, cart, search, product page.
+// No payments. LocalStorage persistence.
 
 const IMG = {
-  // Denim
   denim1: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1600&q=80",
   denim2: "https://images.unsplash.com/photo-1534026609802-f7239f184d91?auto=format&fit=crop&w=1600&q=80",
-  denim3: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&q=80",
-  denim4: "https://images.unsplash.com/photo-1542060748-10c28b62716f?auto=format&fit=crop&w=1600&q=80",
+  denim3: "https://images.unsplash.com/photo-1542060748-10c28b62716f?auto=format&fit=crop&w=1600&q=80",
+  denim4: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&q=80",
 
-  // Hoodies / outer
   hood1: "https://images.unsplash.com/photo-1520975958225-2b89d83cfe19?auto=format&fit=crop&w=1600&q=80",
   hood2: "https://images.unsplash.com/photo-1520975916798-6b7c1b0b6a3d?auto=format&fit=crop&w=1600&q=80",
-  hood3: "https://images.unsplash.com/photo-1520975867597-0b273c0aa0f3?auto=format&fit=crop&w=1600&q=80",
+  hood3: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
   jacket1:"https://images.unsplash.com/photo-1520975693411-16a7a3c7d2f3?auto=format&fit=crop&w=1600&q=80",
 
-  // Shirts
   tee1:  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
   tee2:  "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=80",
   tee3:  "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1600&q=80",
-  shirt1:"https://images.unsplash.com/photo-1520975681070-7c1e6d2dfd8f?auto=format&fit=crop&w=1600&q=80",
+  tee4:  "https://images.unsplash.com/photo-1520975681070-7c1e6d2dfd8f?auto=format&fit=crop&w=1600&q=80",
 
-  // Pants
   pant1: "https://images.unsplash.com/photo-1522897355400-c4fdec73d979?auto=format&fit=crop&w=1600&q=80",
   pant2: "https://images.unsplash.com/photo-1520975721395-3b0c4b2d4f0b?auto=format&fit=crop&w=1600&q=80",
   pant3: "https://images.unsplash.com/photo-1520975750291-6d7c9e86f3d8?auto=format&fit=crop&w=1600&q=80",
 
-  // Shorts
   short1:"https://images.unsplash.com/photo-1559234626-0ebf4754d937?auto=format&fit=crop&w=1600&q=80",
   short2:"https://images.unsplash.com/photo-1559234626-1304f83caed6?auto=format&fit=crop&w=1600&q=80",
   short3:"https://images.unsplash.com/photo-1520975741502-4a9a4f2c3a65?auto=format&fit=crop&w=1600&q=80",
 
-  // Accessories
-  hat1:  "https://images.unsplash.com/photo-1520975698728-8dfd2ed5b6af?auto=format&fit=crop&w=1600&q=80",
-  hat2:  "https://images.unsplash.com/photo-1520975648212-9fe2ad653d77?auto=format&fit=crop&w=1600&q=80",
-  belt1: "https://images.unsplash.com/photo-1590739225287-bd31519780db?auto=format&fit=crop&w=1600&q=80",
-  bag1:  "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1600&q=80",
+  acc1:  "https://images.unsplash.com/photo-1520975698728-8dfd2ed5b6af?auto=format&fit=crop&w=1600&q=80",
+  acc2:  "https://images.unsplash.com/photo-1590739225287-bd31519780db?auto=format&fit=crop&w=1600&q=80",
+  acc3:  "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1600&q=80",
+  acc4:  "https://images.unsplash.com/photo-1520975648212-9fe2ad653d77?auto=format&fit=crop&w=1600&q=80",
 };
 
 const PRODUCTS = [
-  // JEANS
-  {id:"nt-jean-1", name:"STAINED GLASS WAXED DENIM", category:"Jeans", price:124, inStock:true,  colors:["Black Wax","Indigo"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim2, tags:["denim","waxed","stack"]},
-  {id:"nt-jean-2", name:"STRAIGHT DENIM",            category:"Jeans", price:94,  inStock:true,  colors:["Vintage Blue","Washed Black"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim1, tags:["denim","straight"]},
-  {id:"nt-jean-3", name:"RIPPED SLIM DENIM",         category:"Jeans", price:108, inStock:true,  colors:["Washed Black"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim3, tags:["denim","ripped"]},
-  {id:"nt-jean-4", name:"STONE WASH DENIM",          category:"Jeans", price:98,  inStock:false, colors:["Grey Wash"], sizes:["28","30","32","34","36"], ship:"Restock soon", img:IMG.denim4, tags:["denim","wash"]},
+  // JEANS (sizes 28-36)
+  {id:"jean-01", name:"Waxed Indigo Denim", category:"Jeans", price:124, inStock:true,  colors:["Indigo","Black Wax"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim1, tags:["denim","waxed","stack"]},
+  {id:"jean-02", name:"Straight Vintage Denim", category:"Jeans", price:94, inStock:true,  colors:["Vintage Blue","Washed Black"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim2, tags:["denim","straight"]},
+  {id:"jean-03", name:"Stone Wash Denim", category:"Jeans", price:98, inStock:false, colors:["Grey Wash"], sizes:["28","30","32","34","36"], ship:"Restock soon", img:IMG.denim3, tags:["denim","wash"]},
+  {id:"jean-04", name:"Slim Rip Denim", category:"Jeans", price:108, inStock:true,  colors:["Washed Black"], sizes:["28","30","32","34","36"], ship:"Ships 1–2 days", img:IMG.denim4, tags:["denim","ripped"]},
 
-  // HOODIES
-  {id:"nt-hood-1", name:"BRIGHT STAR ZIPUP BLACK",   category:"Hoodies", price:84, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood1, tags:["hoodie","zip"]},
-  {id:"nt-hood-2", name:"PURE WHITE STAR ZIPUP",     category:"Hoodies", price:84, inStock:true,  colors:["White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood2, tags:["hoodie","zip"]},
-  {id:"nt-hood-3", name:"RETURN TO FOREVER HOODIE",  category:"Hoodies", price:76, inStock:false, colors:["Black"], sizes:["S","M","L","XL"], ship:"Restock soon", img:IMG.hood3, tags:["hoodie"]},
-  {id:"nt-jack-1", name:"LIGHTWEIGHT JACKET",        category:"Hoodies", price:118,inStock:true,  colors:["Black","Charcoal"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.jacket1, tags:["jacket","outer"]},
+  // HOODIES (S-XL)
+  {id:"hood-01", name:"Zip Hoodie — Black", category:"Hoodies", price:84, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood1, tags:["hoodie","zip"]},
+  {id:"hood-02", name:"Zip Hoodie — Ivory", category:"Hoodies", price:84, inStock:true,  colors:["Ivory"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.hood2, tags:["hoodie","zip"]},
+  {id:"hood-03", name:"Pullover Hoodie — Graphite", category:"Hoodies", price:76, inStock:false, colors:["Graphite"], sizes:["S","M","L","XL"], ship:"Restock soon", img:IMG.hood3, tags:["hoodie","pullover"]},
+  {id:"hood-04", name:"Lightweight Jacket", category:"Outerwear", price:118, inStock:true, colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.jacket1, tags:["jacket","outer"]},
 
-  // SHIRTS
-  {id:"nt-shirt-1", name:"HEAVY TEE",                category:"Shirts", price:34, inStock:true,  colors:["White","Off-White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee1, tags:["tee","heavy"]},
-  {id:"nt-shirt-2", name:"CORE TEE BLACK",           category:"Shirts", price:34, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee2, tags:["tee","black"]},
-  {id:"nt-shirt-3", name:"GRAPHIC TEE",              category:"Shirts", price:42, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee3, tags:["tee","graphic"]},
-  {id:"nt-shirt-4", name:"OVERSHIRT",                category:"Shirts", price:68, inStock:true,  colors:["Charcoal"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.shirt1, tags:["shirt","overshirt"]},
+  // SHIRTS (S-XL)
+  {id:"tee-01", name:"Heavy Tee — White", category:"Shirts", price:34, inStock:true,  colors:["White","Off-White"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee1, tags:["tee","heavy"]},
+  {id:"tee-02", name:"Core Tee — Black", category:"Shirts", price:34, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee2, tags:["tee","core"]},
+  {id:"tee-03", name:"Graphic Tee", category:"Shirts", price:42, inStock:true, colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee3, tags:["tee","graphic"]},
+  {id:"tee-04", name:"Overshirt", category:"Shirts", price:68, inStock:true, colors:["Charcoal"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.tee4, tags:["shirt","overshirt"]},
 
-  // PANTS
-  {id:"nt-pant-1", name:"TECH CARGO",                category:"Pants", price:98, inStock:true,  colors:["Black","Olive"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant1, tags:["cargo","tech"]},
-  {id:"nt-pant-2", name:"MUSIC SWEATPANTS",          category:"Pants", price:94, inStock:true,  colors:["Black","Ash"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant2, tags:["sweatpants"]},
-  {id:"nt-pant-3", name:"WIDE LEG TROUSER",          category:"Pants", price:112,inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant3, tags:["trouser","wide"]},
+  // PANTS (S-XL)
+  {id:"pant-01", name:"Tech Cargo", category:"Pants", price:98, inStock:true,  colors:["Black","Olive"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant1, tags:["cargo","tech"]},
+  {id:"pant-02", name:"Music Sweatpants", category:"Pants", price:94, inStock:true, colors:["Black","Ash"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant2, tags:["sweatpants"]},
+  {id:"pant-03", name:"Wide-Leg Trouser", category:"Pants", price:112, inStock:true, colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.pant3, tags:["trouser","wide"]},
 
-  // SHORTS
-  {id:"nt-short-1", name:"NYLON TRAIL SHORT",        category:"Shorts", price:48, inStock:true,  colors:["Black","Stone"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short1, tags:["shorts","nylon"]},
-  {id:"nt-short-2", name:"COTTON EVERYDAY SHORT",    category:"Shorts", price:42, inStock:true,  colors:["Heather","Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short2, tags:["shorts","cotton"]},
-  {id:"nt-short-3", name:"MESH GYM SHORT",           category:"Shorts", price:38, inStock:true,  colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short3, tags:["shorts","mesh"]},
+  // SHORTS (S-XL)
+  {id:"short-01", name:"Nylon Trail Short", category:"Shorts", price:48, inStock:true, colors:["Black","Stone"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short1, tags:["shorts","nylon"]},
+  {id:"short-02", name:"Everyday Cotton Short", category:"Shorts", price:42, inStock:true, colors:["Heather","Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short2, tags:["shorts","cotton"]},
+  {id:"short-03", name:"Mesh Gym Short", category:"Shorts", price:38, inStock:true, colors:["Black"], sizes:["S","M","L","XL"], ship:"Ships 1–2 days", img:IMG.short3, tags:["shorts","mesh"]},
 
-  // ACCESSORIES
-  {id:"nt-acc-1", name:"FOREVER FITTED HAT",         category:"Accessories", price:42, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.hat1, tags:["hat","cap"]},
-  {id:"nt-acc-2", name:"LOGO BEANIE",                category:"Accessories", price:28, inStock:true,  colors:["Black","Grey"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.hat2, tags:["beanie"]},
-  {id:"nt-acc-3", name:"SERPENT BELT",               category:"Accessories", price:68, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.belt1, tags:["belt"]},
-  {id:"nt-acc-4", name:"MINI CROSSBODY BAG",         category:"Accessories", price:58, inStock:true,  colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.bag1, tags:["bag"]},
+  // ACCESSORIES (OS)
+  {id:"acc-01", name:"Fitted Cap", category:"Accessories", price:42, inStock:true, colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.acc1, tags:["hat","cap"]},
+  {id:"acc-02", name:"Leather Belt", category:"Accessories", price:68, inStock:true, colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.acc2, tags:["belt"]},
+  {id:"acc-03", name:"Mini Crossbody Bag", category:"Accessories", price:58, inStock:true, colors:["Black"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.acc3, tags:["bag"]},
+  {id:"acc-04", name:"Logo Beanie", category:"Accessories", price:28, inStock:true, colors:["Black","Grey"], sizes:["OS"], ship:"Ships 1–2 days", img:IMG.acc4, tags:["beanie"]},
 ];
 
+// ---------- helpers ----------
 const $ = (s, r=document)=>r.querySelector(s);
 const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+function save(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+function load(k,f){ try{ const r=localStorage.getItem(k); return r?JSON.parse(r):f; }catch{ return f; } }
+function money(n){ return Number(n).toLocaleString(undefined,{style:"currency",currency:"USD"}); }
+function esc(s){ return String(s).replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m])); }
+
+// ---------- state ----------
+let cart = load("ss_cart", []);         // [{id,color,size,qty}]
+let favorites = load("ss_favs", {});    // {id:true}
+
 const app = $("#app");
 const overlay = $("#overlay");
-
-let cart = load("nt_cart", []);       // [{id,color,size,qty}]
-let favorites = load("nt_favs", {});  // {id:true}
 
 const cartDrawer = $("#cartDrawer");
 const cartBtn = $("#cartBtn");
@@ -106,31 +107,27 @@ const searchResults = $("#searchResults");
 
 const toast = $("#toast");
 
-function save(k,v){localStorage.setItem(k, JSON.stringify(v));}
-function load(k,f){try{const r=localStorage.getItem(k);return r?JSON.parse(r):f}catch{return f}}
-function money(n){return Number(n).toLocaleString(undefined,{style:"currency",currency:"USD"})}
-function toastMsg(m){
-  toast.textContent=m; toast.classList.remove("hidden");
-  clearTimeout(toastMsg._t);
-  toastMsg._t=setTimeout(()=>toast.classList.add("hidden"),1400);
-}
+// ---------- UI layers ----------
 function setOverlay(on){
   overlay.classList.toggle("hidden", !on);
   overlay.setAttribute("aria-hidden", String(!on));
 }
 function anyLayerOpen(){
-  return !cartDrawer.classList.contains("hidden") || !mobileNav.classList.contains("hidden") || !searchModal.classList.contains("hidden");
+  return !cartDrawer.classList.contains("hidden") ||
+         !mobileNav.classList.contains("hidden") ||
+         !searchModal.classList.contains("hidden");
 }
 function closeAll(){
-  closeCartDrawer(); closeMobileNavDrawer(); closeSearchModal();
+  closeCartDrawer();
+  closeMobileNavDrawer();
+  closeSearchModal();
   setOverlay(false);
 }
+function openCartDrawer(){ cartDrawer.classList.remove("hidden"); cartDrawer.setAttribute("aria-hidden","false"); setOverlay(true); }
+function closeCartDrawer(){ cartDrawer.classList.add("hidden"); cartDrawer.setAttribute("aria-hidden","true"); if(!anyLayerOpen()) setOverlay(false); }
 
-function openCartDrawer(){cartDrawer.classList.remove("hidden"); cartDrawer.setAttribute("aria-hidden","false"); setOverlay(true);}
-function closeCartDrawer(){cartDrawer.classList.add("hidden"); cartDrawer.setAttribute("aria-hidden","true"); if(!anyLayerOpen()) setOverlay(false);}
-
-function openMobileNavDrawer(){mobileNav.classList.remove("hidden"); mobileNav.setAttribute("aria-hidden","false"); setOverlay(true);}
-function closeMobileNavDrawer(){mobileNav.classList.add("hidden"); mobileNav.setAttribute("aria-hidden","true"); if(!anyLayerOpen()) setOverlay(false);}
+function openMobileNavDrawer(){ mobileNav.classList.remove("hidden"); mobileNav.setAttribute("aria-hidden","false"); setOverlay(true); }
+function closeMobileNavDrawer(){ mobileNav.classList.add("hidden"); mobileNav.setAttribute("aria-hidden","true"); if(!anyLayerOpen()) setOverlay(false); }
 
 function openSearchModalUI(){
   searchModal.classList.remove("hidden");
@@ -140,71 +137,106 @@ function openSearchModalUI(){
   renderSearch("");
   setTimeout(()=>searchInputGlobal.focus(), 10);
 }
-function closeSearchModal(){searchModal.classList.add("hidden"); searchModal.setAttribute("aria-hidden","true"); if(!anyLayerOpen()) setOverlay(false);}
+function closeSearchModal(){
+  searchModal.classList.add("hidden");
+  searchModal.setAttribute("aria-hidden","true");
+  if(!anyLayerOpen()) setOverlay(false);
+}
 
-/* Favorites */
+// ---------- toast ----------
+function toastMsg(m){
+  toast.textContent = m;
+  toast.classList.remove("hidden");
+  clearTimeout(toastMsg._t);
+  toastMsg._t = setTimeout(()=>toast.classList.add("hidden"), 1400);
+}
+
+// ---------- favorites ----------
 function toggleFav(id){
   if(favorites[id]) delete favorites[id];
-  else favorites[id]=true;
-  save("nt_favs", favorites);
+  else favorites[id] = true;
+  save("ss_favs", favorites);
   renderBadges();
   toastMsg(favorites[id] ? "Added to favorites" : "Removed from favorites");
 }
 
-/* Cart */
-function cartKey(l){return `${l.id}::${l.color}::${l.size}`;}
+// ---------- cart ----------
+function cartKey(l){ return `${l.id}::${l.color}::${l.size}`; }
+
 function addToCart({id,color,size,qty}){
   const p = PRODUCTS.find(x=>x.id===id);
   if(!p) return;
   if(!p.inStock){ toastMsg("Sold out"); return; }
 
-  const line={id,color,size,qty:Math.max(1, Number(qty||1))};
-  const key=cartKey(line);
-  const idx=cart.findIndex(x=>cartKey(x)===key);
-  if(idx>=0) cart[idx].qty += line.qty;
+  const line = {id, color, size, qty: Math.max(1, Number(qty||1))};
+  const key = cartKey(line);
+  const idx = cart.findIndex(x => cartKey(x) === key);
+  if(idx >= 0) cart[idx].qty += line.qty;
   else cart.push(line);
 
-  save("nt_cart", cart);
-  renderBadges(); renderCart();
+  save("ss_cart", cart);
+  renderBadges();
+  renderCart();
   toastMsg("Added to cart");
 }
-function subtotal(){return cart.reduce((s,l)=>{const p=PRODUCTS.find(x=>x.id===l.id);return p?s+p.price*l.qty:s},0)}
-function ship(sub){ if(sub===0) return 0; return sub>=100?0:8; }
-function removeLine(key){cart=cart.filter(x=>cartKey(x)!==key); save("nt_cart",cart); renderBadges(); renderCart();}
+
+function subtotal(){
+  return cart.reduce((s,l)=>{
+    const p = PRODUCTS.find(x=>x.id===l.id);
+    return p ? s + p.price*l.qty : s;
+  }, 0);
+}
+function ship(sub){ return sub===0 ? 0 : (sub>=100 ? 0 : 8); }
+
+function removeLine(key){
+  cart = cart.filter(x => cartKey(x) !== key);
+  save("ss_cart", cart);
+  renderBadges();
+  renderCart();
+}
 function changeQty(key, d){
-  cart = cart.map(x => cartKey(x)!==key ? x : ({...x, qty:Math.max(1, x.qty+d)}));
-  save("nt_cart",cart); renderBadges(); renderCart();
+  cart = cart.map(x => cartKey(x)!==key ? x : ({...x, qty: Math.max(1, x.qty+d)}));
+  save("ss_cart", cart);
+  renderBadges();
+  renderCart();
 }
 
 function renderBadges(){
   cartCount.textContent = String(cart.reduce((a,x)=>a+x.qty,0));
   favCount.textContent = String(Object.keys(favorites).length);
 }
-function renderCart(){
-  const sub=subtotal(); const s=ship(sub); const t=sub+s;
-  cartSubtotal.textContent=money(sub);
-  shipEstimate.textContent=money(s);
-  cartTotal.textContent=money(t);
 
-  if(cart.length===0){ cartItems.innerHTML=`<div class="muted">Your cart is empty.</div>`; return; }
+function renderCart(){
+  const sub = subtotal();
+  const s = ship(sub);
+  const t = sub + s;
+
+  cartSubtotal.textContent = money(sub);
+  shipEstimate.textContent = money(s);
+  cartTotal.textContent = money(t);
+
+  if(cart.length === 0){
+    cartItems.innerHTML = `<div class="muted">Your cart is empty.</div>`;
+    return;
+  }
 
   cartItems.innerHTML = cart.map(l=>{
-    const p=PRODUCTS.find(x=>x.id===l.id);
-    const key=cartKey(l);
+    const p = PRODUCTS.find(x=>x.id===l.id);
+    const key = cartKey(l);
     return `
       <div class="cartline">
         <div class="cartline-top">
           <div>
             <div class="cartline-name">${esc(p.name)}</div>
-            <div class="cartline-meta">${esc(l.color)} • ${esc(l.size)} • ${money(p.price)}</div>
+            <div class="muted fine">${esc(l.color)} • ${esc(l.size)} • ${money(p.price)}</div>
           </div>
           <button class="iconbtn" data-remove="${esc(key)}" type="button">✕</button>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:10px">
           <div class="qtyrow">
-            <button class="qtybtn" data-dec="${esc(key)}" type="button">−</button>
-            <div class="qtyval">${l.qty}</div>
-            <button class="qtybtn" data-inc="${esc(key)}" type="button">+</button>
+            <button class="btn" data-dec="${esc(key)}" type="button">−</button>
+            <div style="min-width:26px;text-align:center">${l.qty}</div>
+            <button class="btn" data-inc="${esc(key)}" type="button">+</button>
           </div>
           <strong>${money(p.price*l.qty)}</strong>
         </div>
@@ -217,19 +249,25 @@ function renderCart(){
   $$("[data-inc]", cartItems).forEach(b=>b.addEventListener("click",()=>changeQty(b.getAttribute("data-inc"), 1)));
 }
 
-/* Search */
+// ---------- search ----------
 function renderSearch(q){
   const query=(q||"").trim().toLowerCase();
   const results = query
-    ? PRODUCTS.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.tags.some(t=>t.includes(query)))
+    ? PRODUCTS.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query) ||
+        p.tags.some(t=>t.includes(query))
+      )
     : PRODUCTS;
 
-  searchResults.innerHTML = results.slice(0,10).map(p=>`
-    <a class="drawer-link" href="#/product/${encodeURIComponent(p.id)}">${esc(p.name)} — ${money(p.price)} ${p.inStock?"":"(SOLD OUT)"}</a>
+  searchResults.innerHTML = results.slice(0,12).map(p=>`
+    <a class="drawer-link" href="#/product/${encodeURIComponent(p.id)}">
+      ${esc(p.name)} — ${money(p.price)} ${p.inStock ? "" : "(SOLD OUT)"}
+    </a>
   `).join("");
 }
 
-/* Pages */
+// ---------- routing ----------
 function route(){
   const hash = location.hash.replace(/^#/,"") || "/";
   const parts = hash.split("/").filter(Boolean);
@@ -247,17 +285,17 @@ function route(){
 }
 window.addEventListener("hashchange", route);
 
+// ---------- pages ----------
 function renderHome(){
-  const heroImg = IMG.denim2; // ✅ fixed key
+  const heroImg = IMG.denim1;
   app.innerHTML = `
     <section class="wrap">
       <div class="hero">
         <div class="hero-media" style="background-image:url('${heroImg}')"></div>
         <div class="hero-body">
-          <div class="h1">Minimal streetwear.<br/>Real storefront UX.</div>
+          <h1 class="h1">Classy essentials.<br/>Modern storefront UX.</h1>
           <div class="hero-sub">
-            Tight grid, dark scheme, favorites, cart drawer, search, and full filter system.
-            Built for clean mobile demos.
+            Filters, favorites, cart drawer, search, and responsive layout built for clean demos.
           </div>
           <div class="btnrow">
             <a class="btn primary" href="#/shop">Shop</a>
@@ -274,19 +312,21 @@ function renderHome(){
       <div class="grid" id="featGrid"></div>
     </section>
   `;
+
   $("#openSearch2").addEventListener("click", openSearchModalUI);
 
-  const g=$("#featGrid");
-  g.innerHTML = PRODUCTS.slice(0,8).map(cardHTML).join("");
+  const g = $("#featGrid");
+  const featured = PRODUCTS.filter(p=>p.inStock).slice(0,8);
+  g.innerHTML = featured.map(cardHTML).join("");
   wireCardButtons(g);
 }
 
 function renderShop(){
   const state={cat:"All", q:"", sort:"featured", priceMax:150, sizes:new Set(), availability:"all"};
 
-  app.innerHTML=`
+  app.innerHTML = `
     <section class="wrap">
-      <div class="section-head">
+      <div class="section-head" style="margin-top:0">
         <h2 class="h2">Shop</h2>
         <div class="muted">Use filters like a real store</div>
       </div>
@@ -308,6 +348,7 @@ function renderShop(){
               <option>Shirts</option>
               <option>Pants</option>
               <option>Hoodies</option>
+              <option>Outerwear</option>
               <option>Shorts</option>
               <option>Accessories</option>
             </select>
@@ -343,9 +384,7 @@ function renderShop(){
             </select>
           </div>
 
-          <div class="fgroup">
-            <button class="btn wide" id="clear" type="button">Clear</button>
-          </div>
+          <button class="btn wide" id="clear" type="button">Clear</button>
         </aside>
 
         <div>
@@ -353,6 +392,7 @@ function renderShop(){
             <h2 class="h2">Results</h2>
             <div class="muted" id="count"></div>
           </div>
+
           <div class="grid" id="grid"></div>
         </div>
       </div>
@@ -377,7 +417,11 @@ function renderShop(){
 
   qEl.addEventListener("input",()=>{state.q=qEl.value; apply();});
   catEl.addEventListener("change",()=>{state.cat=catEl.value; apply();});
-  priceEl.addEventListener("input",()=>{state.priceMax=Number(priceEl.value); priceLabel.textContent=money(state.priceMax).replace(".00",""); apply();});
+  priceEl.addEventListener("input",()=>{
+    state.priceMax=Number(priceEl.value);
+    priceLabel.textContent = money(state.priceMax).replace(".00","");
+    apply();
+  });
   availEl.addEventListener("change",()=>{state.availability=availEl.value; apply();});
   sortEl.addEventListener("change",()=>{state.sort=sortEl.value; apply();});
 
@@ -400,7 +444,7 @@ function renderShop(){
 
 function renderFavorites(){
   const items = PRODUCTS.filter(p=>favorites[p.id]);
-  app.innerHTML=`
+  app.innerHTML = `
     <section class="wrap">
       <div class="section-head" style="margin-top:0">
         <h2 class="h2">Favorites</h2>
@@ -417,25 +461,26 @@ function renderFavorites(){
 }
 
 function renderContact(){
-  app.innerHTML=`
+  app.innerHTML = `
     <section class="wrap">
       <div class="section-head" style="margin-top:0">
         <h2 class="h2">Contact</h2><div></div>
       </div>
-      <div class="filters" style="position:relative;top:auto;max-width:620px">
+
+      <div class="filters" style="max-width:640px">
         <div class="filter-title">Message</div>
         <div class="fgroup"><div class="flabel">Email</div><input class="input" id="em" type="email" placeholder="you@email.com"></div>
         <div class="fgroup"><div class="flabel">Message</div><input class="input" id="msg" placeholder="Write something…"></div>
-        <div class="fgroup"><button class="btn primary wide" id="send" type="button">Send</button></div>
-        <div class="fine muted">Demo form, wire to your backend later.</div>
+        <button class="btn primary wide" id="send" type="button">Send</button>
+        <div class="fine muted" style="margin-top:10px">Demo form — wire to your backend later.</div>
       </div>
     </section>
   `;
   $("#send").addEventListener("click",()=>{
     const em=($("#em").value||"").trim();
     const msg=($("#msg").value||"").trim();
-    if(!em||!msg){ toastMsg("Fill email + message"); return; }
-    save("nt_contact_last",{em,msg,ts:Date.now()});
+    if(!em || !msg){ toastMsg("Fill email + message"); return; }
+    save("ss_contact_last",{em,msg,ts:Date.now()});
     $("#em").value=""; $("#msg").value="";
     toastMsg("Sent (demo)");
   });
@@ -447,7 +492,7 @@ function renderProduct(id){
 
   let color=p.colors[0], size=p.sizes[0], qty=1;
 
-  app.innerHTML=`
+  app.innerHTML = `
     <section class="wrap">
       <div class="section-head" style="margin-top:0">
         <a class="navlink" href="#/shop">← Back</a>
@@ -456,19 +501,22 @@ function renderProduct(id){
 
       <div class="grid" style="grid-template-columns:repeat(12,1fr)">
         <div class="card" style="grid-column:span 7">
-          <div class="media"><img src="${p.img}" alt="${esc(p.name)}"></div>
+          <a class="media" href="#/product/${encodeURIComponent(p.id)}">
+            <img src="${p.img}" alt="${esc(p.name)}" />
+            ${p.inStock ? "" : `<div class="sold">Sold out</div>`}
+          </a>
         </div>
 
         <div class="card" style="grid-column:span 5">
           <div class="cardbody">
             <div class="pname">${esc(p.name)}</div>
-            <div class="row" style="margin-top:8px;">
+            <div class="row" style="margin-top:8px">
               <div class="muted">${p.inStock?"In stock":"Sold out"}</div>
               <div class="price">${money(p.price)}</div>
             </div>
-            <div class="sub" style="margin-top:8px;">${p.ship}</div>
+            <div class="sub">${p.ship}</div>
 
-            <div class="fgroup">
+            <div class="fgroup" style="margin-top:14px">
               <div class="flabel">Color</div>
               <select id="color">${p.colors.map(c=>`<option>${esc(c)}</option>`).join("")}</select>
             </div>
@@ -481,12 +529,14 @@ function renderProduct(id){
             <div class="fgroup">
               <div class="flabel">Quantity</div>
               <div class="row">
-                <div class="qtyrow">
-                  <button class="qtybtn" id="dec" type="button">−</button>
-                  <div class="qtyval" id="qv">1</div>
-                  <button class="qtybtn" id="inc" type="button">+</button>
+                <div class="row" style="justify-content:flex-start;gap:8px">
+                  <button class="btn" id="dec" type="button">−</button>
+                  <div style="min-width:22px;text-align:center" id="qv">1</div>
+                  <button class="btn" id="inc" type="button">+</button>
                 </div>
-                <button class="btn primary" id="add" type="button" ${p.inStock?"":"disabled"}>${p.inStock?"Add to cart":"Sold out"}</button>
+                <button class="btn primary" id="add" type="button" ${p.inStock?"":"disabled"}>
+                  ${p.inStock ? "Add to cart" : "Sold out"}
+                </button>
               </div>
             </div>
 
@@ -494,7 +544,7 @@ function renderProduct(id){
               <button class="btn wide" id="fav" type="button">${favorites[p.id]?"♥ Favorited":"♡ Favorite"}</button>
             </div>
 
-            <div class="fine muted">Integration hook: attach your body-scan step at checkout later.</div>
+            <div class="fine muted">Checkout hook ready — integrate your body-scan flow at checkout later.</div>
           </div>
         </div>
       </div>
@@ -507,7 +557,7 @@ function renderProduct(id){
   $("#inc").addEventListener("click",()=>{qty=Math.min(20,qty+1); $("#qv").textContent=String(qty);});
 
   $("#add").addEventListener("click",()=>{
-    addToCart({id:p.id,color,size,qty});
+    addToCart({id:p.id, color, size, qty});
     openCartDrawer();
   });
 
@@ -518,9 +568,11 @@ function renderProduct(id){
 }
 
 function renderNotFound(){
-  app.innerHTML=`
+  app.innerHTML = `
     <section class="wrap">
-      <div class="section-head" style="margin-top:0"><h2 class="h2">Not found</h2><div></div></div>
+      <div class="section-head" style="margin-top:0">
+        <h2 class="h2">Not found</h2><div></div>
+      </div>
       <div class="muted">That page doesn’t exist.</div>
       <div class="btnrow" style="margin-top:12px">
         <a class="btn primary" href="#/">Home</a>
@@ -530,23 +582,27 @@ function renderNotFound(){
   `;
 }
 
-/* Filtering + cards */
+// ---------- filtering + cards ----------
 function filter(state){
-  let items=PRODUCTS.slice();
+  let items = PRODUCTS.slice();
 
-  if(state.cat!=="All") items=items.filter(p=>p.category===state.cat);
-  if(state.availability==="in") items=items.filter(p=>p.inStock);
-  if(state.availability==="out") items=items.filter(p=>!p.inStock);
+  if(state.cat !== "All") items = items.filter(p=>p.category===state.cat);
+  if(state.availability === "in") items = items.filter(p=>p.inStock);
+  if(state.availability === "out") items = items.filter(p=>!p.inStock);
 
   if(state.q.trim()){
-    const q=state.q.trim().toLowerCase();
-    items=items.filter(p=>p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)||p.tags.some(t=>t.includes(q)));
+    const q = state.q.trim().toLowerCase();
+    items = items.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      p.tags.some(t=>t.includes(q))
+    );
   }
 
-  items=items.filter(p=>p.price<=state.priceMax);
+  items = items.filter(p => p.price <= state.priceMax);
 
   if(state.sizes.size){
-    items=items.filter(p=>p.sizes.some(s=>state.sizes.has(s)));
+    items = items.filter(p => p.sizes.some(s => state.sizes.has(s)));
   }
 
   if(state.sort==="featured") items.sort((a,b)=>Number(b.inStock)-Number(a.inStock));
@@ -563,18 +619,16 @@ function cardHTML(p){
     <article class="card">
       <a class="media" href="#/product/${encodeURIComponent(p.id)}">
         <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" />
-        ${p.inStock ? "" : `<div class="sold">SOLD OUT</div>`}
+        ${p.inStock ? "" : `<div class="sold">Sold out</div>`}
       </a>
 
       <div class="cardbody">
         <div class="pname">${esc(p.name)}</div>
-        <div class="price">${money(p.price)} USD</div>
+        <div class="price">${money(p.price)}</div>
         <div class="sub">${p.ship}</div>
 
         <div class="cardbtns">
-          <button class="btn ${favOn ? "heart on" : "heart"}" data-fav="${esc(p.id)}" type="button">
-            ${favOn ? "♥" : "♡"}
-          </button>
+          <button class="btn ${favOn ? "heart on" : "heart"}" data-fav="${esc(p.id)}" type="button">${favOn ? "♥" : "♡"}</button>
           <a class="btn wide" href="#/product/${encodeURIComponent(p.id)}">View</a>
           <button class="btn primary wide" data-quick="${esc(p.id)}" type="button" ${p.inStock ? "" : "disabled"}>
             ${p.inStock ? "Quick add" : "Sold out"}
@@ -595,28 +649,29 @@ function wireCardButtons(root){
   });
   $$("[data-quick]", root).forEach(b=>{
     b.addEventListener("click",()=>{
-      const id=b.getAttribute("data-quick");
-      const p=PRODUCTS.find(x=>x.id===id);
+      const id = b.getAttribute("data-quick");
+      const p = PRODUCTS.find(x=>x.id===id);
       if(!p) return;
-      addToCart({id:p.id,color:p.colors[0],size:p.sizes[0],qty:1});
+      addToCart({id:p.id, color:p.colors[0], size:p.sizes[0], qty:1});
       openCartDrawer();
     });
   });
 }
 
-/* Utils + init */
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]))}
-
+// ---------- init ----------
 renderBadges();
 renderCart();
-route();
 renderSearch("");
+route();
 
 cartBtn.addEventListener("click", openCartDrawer);
 closeCart.addEventListener("click",(e)=>{e.preventDefault();e.stopPropagation();closeCartDrawer();});
-favBtn.addEventListener("click",()=>{location.hash="#/favorites";});
+
+favBtn.addEventListener("click",()=>{ location.hash = "#/favorites"; });
+
 mobileMenuBtn.addEventListener("click", openMobileNavDrawer);
 closeMobileNav.addEventListener("click",(e)=>{e.preventDefault();e.stopPropagation();closeMobileNavDrawer();});
+
 openSearch.addEventListener("click", openSearchModalUI);
 closeSearch.addEventListener("click",(e)=>{e.preventDefault();e.stopPropagation();closeSearchModal();});
 searchInputGlobal.addEventListener("input",()=>renderSearch(searchInputGlobal.value));
