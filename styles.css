@@ -1,6 +1,130 @@
 /* =========================
    RESET
 ========================= */
+/* =========================
+   HEADER / NAV (fix top-left)
+========================= */
+
+.topbar{
+  background:#0b0b0b;
+  border-bottom:1px solid #111;
+  color:#cfcfcf;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.topbar .wrap{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:34px;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:#000;
+  border-bottom:1px solid #111;
+}
+
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:12px;
+}
+
+.brand-dot{
+  width:6px;
+  height:6px;
+  border-radius:999px;
+  background:#fff;
+  opacity:.9;
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.nav a{
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#bdbdbd;
+  padding:8px 10px;
+  border-radius:10px;
+  transition:.2s ease;
+}
+
+.nav a:hover{
+  background:#0f0f0f;
+  color:#fff;
+}
+
+.actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border:1px solid #222;
+  border-radius:999px;
+  background:#0b0b0b;
+  font-size:12px;
+  color:#ddd;
+}
+
+.count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:22px;
+  height:22px;
+  padding:0 8px;
+  border-radius:999px;
+  background:#111;
+  border:1px solid #222;
+  color:#fff;
+  font-size:12px;
+}
+
+.iconbtn{
+  width:38px;
+  height:38px;
+  border-radius:999px;
+  border:1px solid #222;
+  background:#0b0b0b;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s ease;
+}
+.iconbtn:hover{
+  background:#111;
+}
+
+/* Mobile: collapse nav into hamburger nicely */
+@media (max-width: 760px){
+  .nav{ display:none; }
+}
 
 *,
 *::before,
@@ -361,3 +485,4 @@ a,
 .media img {
   transition: .2s ease;
 }
+
