@@ -2,33 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NOIR THREADS</title>
-  <meta name="description" content="NOIR THREADS — minimal streetwear storefront demo." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stone & Stitch — Storefront Demo</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <div class="announcement">
-    <div class="wrap ann-row">
-      <span class="ann-text">FREE SHIPPING $100+ • EASY RETURNS • NEW DROP LIVE</span>
-      <button class="linkbtn" id="openSearch" type="button">Search</button>
+
+  <div class="topbar">
+    <div class="wrap topbar-row">
+      <div class="topbar-left">Free shipping $100+ • Easy returns • New drop live</div>
+      <button class="linklike" id="openSearch" type="button">Search</button>
     </div>
   </div>
 
   <header class="header">
-    <div class="wrap head-row">
-      <button class="iconbtn mobile-only" id="mobileMenuBtn" type="button" aria-label="Menu">☰</button>
-
-      <a class="logo" href="#/">
-        <span class="logo-mark"></span>
-        <span class="logo-text">NOIR THREADS</span>
+    <div class="wrap header-row">
+      <a class="brand" href="#/">
+        <span class="brand-dot"></span>
+        <span>Stone & Stitch</span>
       </a>
 
-      <nav class="nav" aria-label="Primary">
-        <a class="navlink" href="#/shop">SHOP</a>
-        <a class="navlink" href="#/favorites">FAVORITES</a>
-        <a class="navlink" href="#/contact">CONTACT</a>
+      <nav class="nav">
+        <a href="#/shop">Shop</a>
+        <a href="#/favorites">Favorites</a>
+        <a href="#/contact">Contact</a>
       </nav>
 
       <div class="actions">
@@ -36,66 +33,62 @@
           ♥ <span class="badge" id="favCount">0</span>
         </button>
         <button class="iconbtn" id="cartBtn" type="button" aria-label="Cart">
-          🛒 <span class="badge" id="cartCount">0</span>
+          Cart <span class="badge" id="cartCount">0</span>
         </button>
+        <button class="iconbtn mobileOnly" id="mobileMenuBtn" type="button" aria-label="Menu">☰</button>
       </div>
     </div>
   </header>
 
-  <aside id="mobileNav" class="drawer hidden" aria-hidden="true">
+  <main id="app"></main>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay hidden" aria-hidden="true"></div>
+
+  <!-- Mobile nav drawer -->
+  <aside id="mobileNav" class="drawer left hidden" aria-hidden="true">
     <div class="drawer-head">
       <div class="drawer-title">Menu</div>
-      <button class="iconbtn" id="closeMobileNav" type="button" aria-label="Close">✕</button>
+      <button class="iconbtn" id="closeMobileNav" type="button">✕</button>
     </div>
-    <div class="drawer-body">
-      <a class="drawer-link" href="#/shop">Shop</a>
-      <a class="drawer-link" href="#/favorites">Favorites</a>
-      <a class="drawer-link" href="#/contact">Contact</a>
-    </div>
+    <a class="drawer-link" href="#/shop">Shop</a>
+    <a class="drawer-link" href="#/favorites">Favorites</a>
+    <a class="drawer-link" href="#/contact">Contact</a>
   </aside>
 
-  <div id="overlay" class="overlay hidden" tabindex="-1" aria-hidden="true"></div>
-
-  <main id="app" class="app" aria-live="polite"></main>
-
-  <aside id="cartDrawer" class="drawer cart hidden" aria-hidden="true">
+  <!-- Cart drawer -->
+  <aside id="cartDrawer" class="drawer right hidden" aria-hidden="true">
     <div class="drawer-head">
       <div class="drawer-title">Cart</div>
-      <button class="iconbtn" id="closeCart" type="button" aria-label="Close">✕</button>
+      <button class="iconbtn" id="closeCart" type="button">✕</button>
     </div>
-    <div class="drawer-body" id="cartItems"></div>
+
+    <div id="cartItems" class="drawer-body"></div>
+
     <div class="drawer-foot">
-      <div class="row">
-        <span class="muted">Subtotal</span>
-        <strong id="cartSubtotal">$0.00</strong>
+      <div class="totals">
+        <div class="row"><span class="muted">Subtotal</span><strong id="cartSubtotal">$0</strong></div>
+        <div class="row"><span class="muted">Shipping</span><strong id="shipEstimate">$0</strong></div>
+        <div class="row total"><span>Total</span><strong id="cartTotal">$0</strong></div>
       </div>
-      <div class="row">
-        <span class="muted">Shipping</span>
-        <span id="shipEstimate">$0.00</span>
-      </div>
-      <div class="row total">
-        <span>Total</span>
-        <strong id="cartTotal">$0.00</strong>
-      </div>
-      <button class="btn primary" id="checkoutBtn" type="button">Checkout</button>
-      <div class="fine muted">Demo: checkout is wired for integration later.</div>
+      <button class="btn primary wide" id="checkoutBtn" type="button">Checkout</button>
+      <div class="fine muted">Demo checkout hook — integrate your body-scan API here later.</div>
     </div>
   </aside>
 
-  <section id="searchModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true">
-      <div class="modal-head">
-        <div class="modal-title">Search</div>
-        <button class="iconbtn" id="closeSearch" type="button" aria-label="Close">✕</button>
+  <!-- Search modal -->
+  <div id="searchModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-card">
+      <div class="drawer-head">
+        <div class="drawer-title">Search</div>
+        <button class="iconbtn" id="closeSearch" type="button">✕</button>
       </div>
-      <div class="modal-body">
-        <input id="searchInputGlobal" class="input" type="search" placeholder="Search products…" />
-        <div id="searchResults" class="search-results"></div>
-      </div>
+      <input class="input" id="searchInputGlobal" type="search" placeholder="Search products…" />
+      <div id="searchResults" class="searchResults"></div>
     </div>
-  </section>
+  </div>
 
-  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <div id="toast" class="toast hidden"></div>
 
   <script src="app.js"></script>
 </body>
