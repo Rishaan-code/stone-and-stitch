@@ -604,6 +604,8 @@ function filter(state){
     thenaFilterApplied = true;
 
     items = items.filter(p => {
+      if (!p.inStock) return false;
+
       if (p.category === "Hoodies" || p.category === "Tees" || p.category === "Jackets") {
         if (!thena.shirt || thena.shirt === "Custom") return false;
         return p.sizes.includes(thena.shirt);
