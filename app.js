@@ -385,6 +385,7 @@ function renderShop(){
           </div>
 
           <button class="btn wide" id="clear" type="button">Clear</button>
+          <div id="thena" style="margin-top:5px;"></div>
         </aside>
 
         <div>
@@ -582,9 +583,45 @@ function renderNotFound(){
   `;
 }
 
+// ---------- thena -----------
+let thenaFilterApplied = false;
+function getThenaParams() {
+  const params = new URLSearchParams(window.location.search);  
+  if (params.get("filtered") !== "true") return null;
+  return {
+    shirt: params.get("shirt"),
+    pantWaist: params.get("pantWaist"),
+    pantLength: params.get("pantLength")
+  };
+}
+
 // ---------- filtering + cards ----------
 function filter(state){
   let items = PRODUCTS.slice();
+  
+  const thena = getThenaParams();
+  if (thena && !thenaFilterApplied) {
+    thenaFilterApplied = true;
+
+    items = items.filter(p => {
+      if (p.category === "Hoodies" || p.category === "Tees" || p.category === "Jackets") {
+        if (!thena.shirt || thena.shirt === "Custom") return false;
+        return p.sizes.includes(thena.shirt);
+      }
+
+      if (p.category === "Hoodies" || p.category === "Jackets") {
+        if (!thena.layerShirt || thena.layerShirt === "Custom") return false;
+        return p.sizes.includes(thena.shirt);
+      }
+
+      if (p.category === "Jeans" || p.category === "Pants" || p.category === "Waist") {
+        if (!thena.pantWaist || thena.pantWaist === "Custom") return false;
+        return p.sizes.includes(thena.pantWaist);
+      }
+
+      return true;
+    })
+  }
 
   if(state.cat !== "All") items = items.filter(p=>p.category===state.cat);
   if(state.availability === "in") items = items.filter(p=>p.inStock);
