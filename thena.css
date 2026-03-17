@@ -1,0 +1,279 @@
+#thena {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#thena-filter-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    background: #058458;
+    color: #fff;
+    font-weight: 700;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    border-radius: 8px;
+    border: 2px solid black;
+
+    cursor: pointer;
+    transition: 0.3s;
+    animation: thena-scaleIn .5s cubic-bezier(.4, .2, .2, 1);
+}
+
+#thena-filter-btn:hover {
+    background: #046c49;
+    transform: translateY(-0.5px);
+}
+
+#thena-filtered-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    background: #015939;
+    color: #fff;
+    font-weight: 700;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    border-radius: 8px;
+    border: 2px solid black;
+
+    cursor: pointer;
+    transition: 0.3s;
+    animation: thena-scaleIn .5s cubic-bezier(.4, .2, .2, 1);
+}
+
+#sign-out-btn {
+     padding: 12px 20px;
+    font-size: 16px;
+    background: #058458;
+    color: #fff;
+    font-weight: 700;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    border-radius: 8px;
+    border: 2px solid black;
+
+    cursor: pointer;
+    transition: 0.3s;
+    animation: thena-scaleIn .5s cubic-bezier(.4, .2, .2, 1);
+}
+#sign-out-btn:hover {
+    background: #14b874;
+}
+
+#thena-login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+#thena-login-inner {
+    position: relative;
+
+    width: 420px;
+    height: 520px;
+
+    border-radius: 28px;
+    background: linear-gradient(135deg,
+            #ffffff,
+            #f2f2f2);
+
+    border: 3px solid #111;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* gap: 22px; */
+
+    overflow: hidden;
+}
+
+#thena-img {
+    width: 100px;
+    margin-bottom: -10px;
+}
+
+#thena-login-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 10px;
+}
+
+#thena-login-inner input {
+    width: 300px;
+    height: 52px;
+
+    border-radius: 12px;
+    background: #ffffff;
+    color: #111;
+    border: 2px solid #111;
+
+    padding: 0 16px;
+    font-size: 16px;
+
+    margin-bottom: 5px;
+
+    outline: none;
+}
+
+#thena-login-inner input::placeholder {
+    color: rgba(60, 60, 60, 0.8);
+}
+
+#thena-login-inner input,
+button,
+h3,
+img {
+    z-index: 10;
+}
+
+#thena-login-btn {
+    margin-top: 20px;
+
+    width: 200px;
+    height: 52px;
+
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+
+    background: #0e5f40;
+    color: white;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+#thena-login-btn:hover {
+    background: #0b4f35;
+}
+
+#thena-error-msg {
+    color: red;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@keyframes thena-scaleIn {
+    0% {
+        transform: scale(.7);
+        opacity: .2;
+    }
+
+    80% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.thena-bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, #14b874, #0e7e52);
+    opacity: 0.9;
+
+    z-index: 1;
+}
+
+.thena-bubble.large {
+    width: 320px;
+    height: 320px;
+    top: -120px;
+    left: -120px;
+}
+
+.thena-bubble.small {
+    width: 160px;
+    height: 160px;
+    top: 120px;
+    left: -60px;
+}
+
+.thena-bubble.bottom {
+    width: 260px;
+    height: 260px;
+    bottom: -120px;
+    right: -80px;
+}
+
+#thena-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    width: 50px;
+    height: 50px;
+
+    font-size: 40px;
+    font-weight: bold;
+
+    border: none;
+    background: transparent;
+    color: #222;
+
+    cursor: pointer;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 8px;
+    transition: 0.2s;
+    z-index: 20;
+}
+
+#thena-close-btn:hover {
+    color: #e54848;
+    text-shadow: 0.05em 0 #111, 0 0.05em #111, -0.05em 0 #111, 0 -0.05em #111, -0.05em -0.05em #111, -0.05em 0.05em #111, 0.05em -0.05em #111, 0.05em 0.05em #111;
+    /* background: #e54848; */
+}
+
+@media (prefers-color-scheme: dark) {
+
+    #thena-login-inner {
+        background: linear-gradient(135deg,
+                #2e2e2e,
+                #3a3a3a);
+
+        border: 3px solid rgba(255, 255, 255, 0.85);
+    }
+
+    #thena-login-title {
+        color: white;
+    }
+
+    #thena-login-inner input {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+
+    #thena-login-inner input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    #thena-login-btn {
+        border: 2px solid #3a3a3a;
+    }
+
+    #thena-close-btn {
+        color: white;
+    }
+
+    #thena-close-btn:hover {
+        text-shadow: 0.05em 0 #fff, 0 0.05em #fff, -0.05em 0 #fff, 0 -0.05em #fff, -0.05em -0.05em #fff, -0.05em 0.05em #fff, 0.05em -0.05em #fff, 0.05em 0.05em #fff;
+    }
+}
