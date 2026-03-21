@@ -236,6 +236,7 @@ import { clearThenaParams } from "./app.js";
 
     await supabaseLogin();
 
+
     const button = createButton(container);
     const { data } = await supabaseClient.auth.getSession();
 
@@ -254,12 +255,14 @@ import { clearThenaParams } from "./app.js";
         console.log("Session after logout:", data.session);
 
         if (success || !data.session) {
+          clearThenaParams();
           button.innerText = "Filter with Thena";
           button.disabled = false;
           button.style.cursor = "pointer";
           button.id = "thena-filter-btn";
+          window.location.reload();
 
-          signOut.remove();
+          
         }
       });
     }
@@ -269,29 +272,39 @@ import { clearThenaParams } from "./app.js";
       login.onclick = async () => {
         var res = await attemptLogin();
         if (res[0]) {
+          
           res = convertMeasurementsToSize(res[1], brand_id);
 
           if (res) {
+            
             button.innerText = "Filtered by Thena";
             button.disabled = true;
             button.style.cursor = "not-allowed";
             button.id = "thena-filtered-btn";
+            
             const signOut = signOutButton(container);
             signOut.addEventListener("click", async () => {
-              const success = await supabaseSignOut();
+              const successfulSignOut = await supabaseSignOut();
               
               const { data } = await supabaseClient.auth.getSession();
               console.log("Session after logout:", data.session);
 
-              if (success) {
+              if (successfulSignOut) {
+                clearThenaParams();
+                window.location.reload();
                 button.innerText = "Filter with Thena";
                 button.disabled = false;
                 button.style.cursor = "pointer";
                 button.id = "thena-filter-btn";
 
-                clearThenaParams();
+                
+
+
+                
                 thenaFilterApplied = false;
                 route();
+                renderSearch("");
+
 
                 signOut.remove();
               }
