@@ -1,3 +1,5 @@
+import { clearThenaParams } from "./app.js";
+
 (function () {
   const VITE_SUPABASE_URL = "https://zlpnoahduwybpxlvdkkk.supabase.co";
   const VITE_SUPABASE_ANON_KEY =
@@ -277,7 +279,7 @@
             const signOut = signOutButton(container);
             signOut.addEventListener("click", async () => {
               const success = await supabaseSignOut();
-
+              
               const { data } = await supabaseClient.auth.getSession();
               console.log("Session after logout:", data.session);
 
@@ -286,6 +288,10 @@
                 button.disabled = false;
                 button.style.cursor = "pointer";
                 button.id = "thena-filter-btn";
+
+                clearThenaParams();
+                thenaFilterApplied = false;
+                route();
 
                 signOut.remove();
               }

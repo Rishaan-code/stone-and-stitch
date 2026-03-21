@@ -594,6 +594,18 @@ function getThenaParams() {
     pantLength: params.get("pantLength")
   };
 }
+// ------------- for signout function ------------
+export function clearThenaParams() {
+  const url = new URL(window.location.href);
+
+  url.search = "";
+
+  window.history.replaceState(
+    {},
+    "",
+    url.pathname + url.search + url.hash
+  );
+}
 
 // ---------- filtering + cards ----------
 function filter(state){
