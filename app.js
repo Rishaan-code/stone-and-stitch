@@ -446,6 +446,7 @@ function renderShop(){
     const alreadyReloaded = sessionStorage.getItem("ss_thena_reloaded") == "true";
     if (!alreadyReloaded) {
       apply();
+      return;
     }
   })
 }
@@ -610,19 +611,6 @@ function getThenaParams() {
     pantWaist: params.get("pantWaist"),
     pantLength: params.get("pantLength")
   };
-}
-// ------------- for signout function ------------
-export function clearThenaParams() {
-  const url = new URL(window.location.href);
-
-  url.search = "";
-  sessionStorage.removeItem("ss_thena_reloaded");
-
-  window.history.replaceState(
-    {},
-    "",
-    url.pathname + url.search + url.hash
-  );
 }
 
 // ---------- filtering + cards ----------

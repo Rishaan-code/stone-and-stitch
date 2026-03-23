@@ -1,5 +1,3 @@
-import { clearThenaParams } from "./app.js";
-
 (function () {
   const VITE_SUPABASE_URL = "https://zlpnoahduwybpxlvdkkk.supabase.co";
   const VITE_SUPABASE_ANON_KEY =
@@ -38,6 +36,10 @@ import { clearThenaParams } from "./app.js";
     const signOut = document.createElement("button");
     signOut.innerText = "Sign Out";
     signOut.id = "sign-out-btn";
+    signOut.onclick = async () => {
+      removeFromUrl();
+      supabaseSignOut();
+    }
 
     container.appendChild(signOut);
     return signOut;
@@ -181,6 +183,19 @@ import { clearThenaParams } from "./app.js";
     return match ? match.size : "Custom";
   }
 
+  function removeFromUrl() {
+    const url = new URL(window.location.href);
+
+    url.search = "";
+    sessionStorage.removeItem("ss_thena_reloaded");
+
+    window.history.replaceState(
+      {},
+      "",
+      url.pathname + url.search + url.hash
+    );
+  }
+
   function injectIntoUrl({ shirt, pantWaist, pantLength }) {
     const params = new URLSearchParams(window.location.search);
 
@@ -193,6 +208,20 @@ import { clearThenaParams } from "./app.js";
 
     const newURL = window.location.pathname + "?" + params.toString() + hash;
     window.history.replaceState({}, "", newURL);
+  }
+
+  function setupSignOutButton(container, button) {
+    const signOut = signOutButton(container);
+    signOut.addEventListener("click", async () => {
+      const success = await supabaseSignOut();
+      if (success) {
+        removeFromUrl();
+        button = createButton(container);
+        signOut.remove();
+        window.location.reload();
+      }
+    });
+    return signOut;
   }
 
   async function convertMeasurementsToSize(measurements, brandId) {
@@ -246,25 +275,8 @@ import { clearThenaParams } from "./app.js";
       button.style.cursor = "not-allowed";
       button.id = "thena-filtered-btn";
 
-      const signOut = signOutButton(container);
-
-      signOut.addEventListener("click", async () => {
-        const success = await supabaseSignOut();
-
-        const { data } = await supabaseClient.auth.getSession();
-        console.log("Session after logout:", data.session);
-
-        if (success || !data.session) {
-          clearThenaParams();
-          button.innerText = "Filter with Thena";
-          button.disabled = false;
-          button.style.cursor = "pointer";
-          button.id = "thena-filter-btn";
-          window.location.reload();
-
-          
-        }
-      });
+      setupSignOutButton(container, button);
+      
     }
     button.addEventListener("click", async () => {
       const { overlay, login } = createLoginModal();
@@ -282,33 +294,7 @@ import { clearThenaParams } from "./app.js";
             button.style.cursor = "not-allowed";
             button.id = "thena-filtered-btn";
             
-            const signOut = signOutButton(container);
-            signOut.addEventListener("click", async () => {
-              const successfulSignOut = await supabaseSignOut();
-              
-              const { data } = await supabaseClient.auth.getSession();
-              console.log("Session after logout:", data.session);
-
-              if (successfulSignOut) {
-                clearThenaParams();
-                window.location.reload();
-                button.innerText = "Filter with Thena";
-                button.disabled = false;
-                button.style.cursor = "pointer";
-                button.id = "thena-filter-btn";
-
-                
-
-
-                
-                thenaFilterApplied = false;
-                route();
-                renderSearch("");
-
-
-                signOut.remove();
-              }
-            });
+            setupSignOutButton(container, button);
             overlay.remove();
           } else {
             overlay.remove();
