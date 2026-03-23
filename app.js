@@ -441,6 +441,13 @@ function renderShop(){
   });
 
   apply();
+
+  waitForThenaParams(() => {
+    const alreadyReloaded = sessionStorage.getItem("ss_thena_reloaded") == "true";
+    if (!alreadyReloaded) {
+      apply();
+    }
+  })
 }
 
 function renderFavorites(){
@@ -566,6 +573,8 @@ function renderProduct(id){
     toggleFav(p.id);
     $("#fav").textContent = favorites[p.id] ? "♥ Favorited" : "♡ Favorite";
   });
+
+  
 }
 
 function renderNotFound(){
@@ -584,9 +593,17 @@ function renderNotFound(){
 }
 
 // ---------- thena -----------
-let thenaFilterApplied = false;
+function waitForThenaParams(callback) {
+  const interval = setInterval(()=>{
+    if (getThenaParams()) {
+      clearInterval();
+      callback();
+    }
+  }, 100); // calls every 100ms
+}
+
 function getThenaParams() {
-  const params = new URLSearchParams(window.location.search);  
+  const params = new URLSearchParams(window.location.search);
   if (params.get("filtered") !== "true") return null;
   return {
     shirt: params.get("shirt"),
@@ -599,6 +616,7 @@ export function clearThenaParams() {
   const url = new URL(window.location.href);
 
   url.search = "";
+  sessionStorage.removeItem("ss_thena_reloaded");
 
   window.history.replaceState(
     {},
@@ -612,29 +630,34 @@ function filter(state){
   let items = PRODUCTS.slice();
   
   const thena = getThenaParams();
-  if (thena && !thenaFilterApplied) {
-    thenaFilterApplied = true;
+  if (thena) {
+    const alreadyReloaded = sessionStorage.getItem("ss_thena_reloaded") == "true";
 
-    items = items.filter(p => {
-      if (!p.inStock) return false;
+    if (!alreadyReloaded) {
+      items = items.filter(p => {
+        if (!p.inStock) return false;
 
-      if (p.category === "Hoodies" || p.category === "Tees" || p.category === "Jackets") {
-        if (!thena.shirt || thena.shirt === "Custom") return false;
-        return p.sizes.includes(thena.shirt);
-      }
+        if (p.category === "Hoodies" || p.category === "Tees" || p.category === "Jackets") {
+          if (!thena.shirt || thena.shirt === "Custom") return false;
+          return p.sizes.includes(thena.shirt);
+        }
 
-      if (p.category === "Hoodies" || p.category === "Jackets") {
-        if (!thena.layerShirt || thena.layerShirt === "Custom") return false;
-        return p.sizes.includes(thena.shirt);
-      }
+        if (p.category === "Hoodies" || p.category === "Jackets") {
+          if (!thena.layerShirt || thena.layerShirt === "Custom") return false;
+          return p.sizes.includes(thena.shirt);
+        }
 
-      if (p.category === "Jeans" || p.category === "Pants" || p.category === "Waist") {
-        if (!thena.pantWaist || thena.pantWaist === "Custom") return false;
-        return p.sizes.includes(thena.pantWaist);
-      }
+        if (p.category === "Jeans" || p.category === "Pants" || p.category === "Waist") {
+          if (!thena.pantWaist || thena.pantWaist === "Custom") return false;
+          return p.sizes.includes(thena.pantWaist);
+        }
 
-      return true;
-    })
+        return true;
+      });
+
+      sessionStorage.setItem("ss_thena_reloaded", "true");
+      return items;
+    }
   }
 
   if(state.cat !== "All") items = items.filter(p=>p.category===state.cat);
