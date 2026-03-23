@@ -36,10 +36,6 @@
     const signOut = document.createElement("button");
     signOut.innerText = "Sign Out";
     signOut.id = "sign-out-btn";
-    signOut.onclick = async () => {
-      removeFromUrl();
-      supabaseSignOut();
-    }
 
     container.appendChild(signOut);
     return signOut;
