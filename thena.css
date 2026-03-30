@@ -1,12 +1,14 @@
 #thena {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 #thena-filter-btn {
-    padding: 12px 20px;
-    font-size: 16px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
     background: #058458;
     color: #fff;
     font-weight: 700;
@@ -26,8 +28,8 @@
 }
 
 #thena-filtered-btn {
-    padding: 12px 20px;
-    font-size: 16px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
     background: #015939;
     color: #fff;
     font-weight: 700;
@@ -42,8 +44,8 @@
 }
 
 #sign-out-btn {
-     padding: 12px 20px;
-    font-size: 16px;
+     padding: 0.75rem 1.25rem;
+    font-size: 1rem;
     background: #058458;
     color: #fff;
     font-weight: 700;
@@ -58,6 +60,21 @@
 }
 #sign-out-btn:hover {
     background: #14b874;
+}
+
+#thena-signup-link {
+    color: #0b4f35;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+#thena-signup-link:hover {
+    color: #14b874;
+    text-decoration: underline;
 }
 
 #thena-login-overlay {
@@ -251,6 +268,13 @@ img {
 }
 
 @media (prefers-color-scheme: dark) {
+    #thena-signup-link:hover{
+        color: #046c49
+    }
+
+    #thena-signup-link {
+        color: white;
+    }
 
     #thena-login-inner {
         background:black;

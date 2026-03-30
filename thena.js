@@ -74,6 +74,12 @@
     login.innerText = "Login";
     login.id = "thena-login-btn";
 
+    const signUpLink = document.createElement("a");
+    signUpLink.href = "https://www.youtube.com/watch?v=OXXoI2MF-Gs";
+    signUpLink.innerText = "Don't have an account? Sign up here";
+    signUpLink.id = "thena-signup-link";
+    signUpLink.target = "_blank";
+
     const bubble1 = document.createElement("div");
     bubble1.className = "thena-bubble large";
 
@@ -103,6 +109,7 @@
     box.appendChild(password);
     box.appendChild(errorText);
     box.appendChild(login);
+    box.appendChild(signUpLink);
 
     overlay.appendChild(box);
     document.body.appendChild(overlay);
