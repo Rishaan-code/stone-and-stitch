@@ -76,8 +76,8 @@
 #thena-login-inner {
     position: relative;
 
-    width: 420px;
-    height: 520px;
+    width: 400px;
+    height: 540px;
 
     border-radius: 28px;
     background: linear-gradient(135deg,
@@ -114,7 +114,8 @@
 
     border-radius: 12px;
     background: #ffffff;
-    color: #111;
+    color: 
+    #111;
     border: 2px solid #111;
 
     padding: 0 16px;
@@ -158,10 +159,6 @@ img {
     background: #0b4f35;
 }
 
-#thena-error-msg {
-    color: red;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
 
 @keyframes thena-scaleIn {
     0% {
@@ -186,7 +183,7 @@ img {
     background: radial-gradient(circle, #14b874, #0e7e52);
     opacity: 0.9;
 
-    z-index: 1;
+    
 }
 
 .thena-bubble.large {
@@ -209,6 +206,18 @@ img {
     bottom: -120px;
     right: -80px;
 }
+
+#thena-error-msg {
+  color: #b00020;
+  padding: 8px 12px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 90%;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  z-index: 1;
+}
+
 
 #thena-close-btn {
     position: absolute;
@@ -244,9 +253,7 @@ img {
 @media (prefers-color-scheme: dark) {
 
     #thena-login-inner {
-        background: linear-gradient(135deg,
-                #2e2e2e,
-                #3a3a3a);
+        background:black;
 
         border: 3px solid rgba(255, 255, 255, 0.85);
     }
@@ -266,14 +273,19 @@ img {
     }
 
     #thena-login-btn {
-        border: 2px solid #3a3a3a;
+        border: 2px solid #ffffff85;
     }
 
     #thena-close-btn {
         color: white;
     }
+    #thena-login-btn:hover{
+        background-color: #14b874;
+    }
 
     #thena-close-btn:hover {
         text-shadow: 0.05em 0 #fff, 0 0.05em #fff, -0.05em 0 #fff, 0 -0.05em #fff, -0.05em -0.05em #fff, -0.05em 0.05em #fff, 0.05em -0.05em #fff, 0.05em 0.05em #fff;
     }
+
+    
 }
